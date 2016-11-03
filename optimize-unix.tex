@@ -133,6 +133,8 @@
 \newcommand\tcsh{\cmdname{tcsh}}
 \newcommand\ksh{\cmdname{ksh}}
 \newcommand\awk{\cmdname{awk}}
+\newcommand\shell{\cmdname{shell}}
+\newcommand\shells{\cmdname{shells}}
 
 \NewDocumentEnvironment{Quotebis}{ m }
 {
@@ -199,9 +201,9 @@
 \title{Optimiser son utilisation d'Unix}
 \author{Bernard TATIN \\
 \small \\
-\emph{bernard.beefheart@outlook.fr}}
+\emph{bernard.tatin@outlook.fr}}
 
-\date{Novembre 2013} % Activate to display a given date or no date (if empty),
+\date{Novembre 2013/Novembre 2016} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
 
 \begin{document}
@@ -211,13 +213,19 @@
 Contrairement à ce qui se fait dans ce type de texte, j'utiliserais (et abuserais) de la première personne du singulier en lieu et place d'un \emph{nous} des plus impersonnel. Est-ce du à la grisaille de cette morne journée? A la remontée des souvenirs des plus anciens et teintés de nostalgie? Peu importe, je remonterais dans le temps, celui de l'Histoire de l'informatique et celui de mon histoire.
 
 Toujours est-il que je souhaite donner les pistes nécessaires au lecteur pour qu'il puisse utiliser la console d'un système \unix de la manière la plus confortable qui soit, pour qu'il choisisse ses outils en toute connaissance de cause et, de là, administrer un système distant comme un serveur le plus tranquillement possible.
+
+Ce document et ces sources en \LaTeX{} sont disponibles sur \href{https://github.com/BernardTatin/optimize-unix}{GitHub}.
 \end{abstract}
 
 \tableofcontents
 
+\part{l'histoire}
 \input{story.tex}
 \input{shells.tex}
+\part{la ligne de commande}
 \input{command-line.tex}
+\part{les scripts}
+\input{scripts.tex}
 
 \printindex
 \end{document}
