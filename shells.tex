@@ -1,0 +1,98 @@
+% !TeX root = optimize-unix.tex
+
+\section{Les shells}
+Un \emph{shell} est une \emph{coquille}, pour reprendre la traduction littérale, autour du système d'exploitation. Voici un magnifique diagramme pompé sur le WEB, donnant une idée du concept :
+
+\nicepicture{images/unix-shell.png}{shell Unix}{le WEB}
+
+Entre mes débuts dans le monde de l'informatique et aujourd'hui, le concept de \emph{emph} a quelque peu évolué. Certains qualifient l'explorateur de Windows comme un \emph{shell}. Ont-ils raison? Certainement si l'on se réfère à l'image précédente : nos \emph{commandes} (clique, clique et reclique) envoyée au \emph{shell graphique} sont transmises au noyau qui nous renvoie, par l'intermédiaire du \emph{shell graphique}, de belles images. Il faut avouer que l'explorateur Windows est le premier contact que l'utilisateur a avec sa machine.  Et sur l'article \href{http://fr.wikipedia.org/wiki/Interface_syst%C3%A8me}{interface système} de Wikipedia, on trouve cette définition:
+
+\begin{Quote}
+Une \emph{interface système }(\emph{shell} en anglais) est une couche logicielle qui fournit l'interface utilisateur d'un système d'exploitation. Il correspond à la couche la plus externe de ce dernier.
+\end{Quote}
+
+Ce même article cite les :
+\begin{Quote}
+\emph{shells graphiques} fournissant une interface graphique pour l'utilisateur (GUI, pour Graphical User Interface)
+\end{Quote}
+
+
+
+Dans le monde Unix, le concept de \emph{shell} reste plus modeste, même si \emph{Midnight Commander} (\texttt{mc}) est parfois considéré comme un shell:
+
+\nicepicture{images/mc.png}{mc dans une session Cygwin}{mon PC}
+
+Pour nous et dans tout ce qui suit, nous considérons comme \emph{shell} :
+
+\begin{Quotebis}{\href{http://fr.wikipedia.org/wiki/Shell_Unix}{Shell Unix} sur Wikipedia}
+un interpréteur de commandes destiné aux systèmes d'exploitation Unix et de type Unix qui permet d'accéder aux fonctionnalités internes du système d'exploitation. Il se présente sous la forme d'une interface en ligne de commande accessible depuis la console ou un terminal. L'utilisateur lance des commandes sous forme d'une entrée texte exécutée ensuite par le shell. Dans les différents systèmes d'exploitation Microsoft Windows, le programme analogue est command.com, ou cmd.exe.
+\end{Quotebis}
+
+\subsection{Quelques shells célèbres}
+\subsubsection{\sh, le Bourne Shell}
+L'ancêtre, toujours vivant et avec lesquels sont écrits une grande majorité des scripts actuels. Son intérêt essentiel est justement l'écriture de scripts. Pour l'interaction, il est absolument \emph{nul} mais bien utile parfois pour dépanner.
+
+\subsubsection{\csh, le C shell}
+Il se voulait le remplaçant glorieux de l'\emph{ancêtre} \sh avec une syntaxe considérée plus lisible car proche du C. Il est de plus en plus abandonné y compris par ses admirateurs les plus fervents, vieillissants dans la solitude la plus complète. Essayez d'écrire un script en csh d'un peu d'envergure sans faire de copié/collé! Il n'y a en effet pas de possibilité de créer des fonctions et, ce qui gêne peut-être encore plus les administrateurs système, il n'y a pas de gestion d'exception.  Cependant, il fût certainement le premier à proposer l'historique des commandes.
+
+A noté qu'il fût crée par Bill Joy, l'un des fondateurs historiques de la société Sun Microsystems.
+
+\subsubsection{\tcsh}
+Le pendant interactif du précédent. Il lui reste des afficionados qui aiment bien sa gestion de l'historique et de la ligne de commande.  Il est une \emph{extension} de \csh, \ie tout ce qui peut-être fait par \csh est fait par \tcsh. Sur de nombreux systèmes (Mac OS X  entre autre), ces deux shells pointent sur le même exécutable (avec un lien symbolique).
+
+En séquence \emph{nostalgie}, je me souviens que c'est ce shell interactif que j'utilisais sur mon premier Unix, en 87/88.
+
+\subsubsection{\ksh, le Korn Shell}
+Initialement écrit pour Unix par David Korn au début des années 80, ce shell a été repris par Microsoft pour Windows. Compatible avec \sh, il propose de nombreuses avancées comme beaucoup de fonctionnalités de \tcsh,  des fonctions, des exceptions, des manipulations très évoluées de chaînes de caractères, ...
+
+\subsubsection{\zsh, le Z Shell}
+C'est mon préféré pour l'interactivité, la complétion et bien d'autres choses encore dont il est capable depuis sa création ou presque. Comme \ksh, il est compilable en bytecode et propose des bibliothèques thématiques comme la couleur, les sockets, la gestion des dates...
+
+\subsubsection{\bash, Bourne Again Shell}
+C'est le descendant le plus direct de \sh. C'est certainement le shell le plus répandu dans le monde Linux aujourd'hui. 
+
+Lors de ma découverte de Linux, je l'ai vite abandonné car il était très en retard pour la complétion en ligne de commande par rapport à d'autres, y compris \tcsh qui commençait pourtant à vieillir un peu. Il a fallu beaucoup d'années (pratiquement 10) pour qu'il en vienne à peu près au niveau de \zsh.
+
+Aujourd'hui, c'est le shell par défaut de nombreuses distributions Linux et il commence à devenir très utilisé comme shell de script par défaut. 
+
+\subsection{La configuration}
+\subsubsection{Le shell personnel}
+La première des configuration est le choix de son shell par défaut sur son compte personnel. C'est très simple :
+
+\lstset{style=shell}
+\begin{lstlisting}
+chsh
+\end{lstlisting}
+
+Aidons-nous du manuel (sous \netbsd) :
+
+\nicepicture{images/man-chsh.png}{\code{man chsh} sous \netbsd}{ma machine virtuelle}
+
+\subsubsection{Configurer le prompt}
+
+Sur ma machine virtuelle \netbsd, j'obtiens quelque chose comme ceci:
+
+\nicepicture{images/le-prompt.png}{un prompt sous \netbsd, avec \zsh}{ma machine virtuelle}
+
+Le prompt, ce sont les caractères colorés que l'on voit en début de chaque lignes de commande. Ce prompt m'a aidé, voire sauvé plusieurs fois.  Celui-ci m'affiche le nom de l'utilisateur courant en bleu, de la machine en blanc et du répertoire courant en blanc et gras. Lorsque j'ai des sessions sur plusieurs machines, je vois tout de suite où je me trouve avec son nom. Ensuite, lorsque je me déplace de répertoires en répertoires, je n'ai pas besoin de faire d'éternels \code{pwd} pour savoir où je me trouve. En plus, lorsque je trouve dans un dépôt SVN, j'ai un affichage me donnant les indications sur le répertoire de travail (on ne peut pas le faire sous \cygwin) :
+
+\nicepicture{images/le-prompt-svn.png}{dans un répertoire de travail \osname{SVN}, avec \zsh}{ma machine}
+
+Pour finir, le nom de l'utilisateur change de couleur lorsque je suis en \code{root} :
+
+\nicepicture{images/le-prompt-root.png}{en \code{root} avec \zsh}{ma machine}
+
+Tous les shells interactifs de ma connaissance ont au moins un fichier de configuration exécuté au lancement: avec \zsh, c'est \code{.zhrc}, avec \bash, c'est \code{.bashrc} et avec \csh, c'est \code{.cshrc}. Aussi loin que mes souvenirs remontent, on personnalise le prompt avec la variable \code{PS1} et ce, même pour le MS/DOS.
+
+Voici un hexdump de mon  \code{PS1} :
+
+\begin{lstlisting}
+00000000  25 7b 1b 5b 30 31 3b 33  31 6d 25 7d 25 28 3f 2e  |%{.[01;31m%}%(?.|
+00000010  2e 25 3f 25 31 76 20 29  25 7b 1b 5b 33 37 6d 25  |.%?%1v )%{.[37m%|
+00000020  7d 25 7b 1b 5b 33 34 6d  25 7d 25 6e 25 7b 1b 5b  |}%{.[34m%}%n%{.[|
+00000030  30 30 6d 25 7d 40 25 6d  20 25 34 30 3c 2e 2e 2e  |00m%}@%m %40<...|
+00000040  3c 25 42 25 7e 25 62 25  3c 3c 20 24 7b 56 43 53  |<%B%~%b%<< ${VCS|
+00000050  5f 49 4e 46 4f 5f 6d 65  73 73 61 67 65 5f 30 5f  |_INFO_message_0_|
+00000060  7d 25 23 20 0a                                    |}%# .|
+00000065
+\end{lstlisting}

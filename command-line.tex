@@ -1,0 +1,335 @@
+% !TeX root = optimize-unix.tex
+
+\section{la ligne de commande}
+Pour de multiples raisons déjà plus ou moins évoquées plus haut, j'ai choisi de travailler avec \zsh comme shell par défaut. C'est ce que nous allons faire ici, autant sous \freebsd que sous \linux, tout simplement pour prouver que l'utilisation du shell est assez indépendante du système sous-jacent. Mais comme je sais que certains systèmes viennent avec \bash ou \tcsh, sans possibilité de modification, je les évoqueraient donc, en particulier \tcsh qui est utilisé très souvent, avec \csh, pour l'administration. Ce n'est que fortuitement que j'examinerais \ksh,  autant par manque d'habitude que parce que je ne l'ai jamais rencontré.
+
+\subsection{les boucles}
+Il y a \code{while} et \code{for}. 
+
+\subsubsection{la boucle \code{for}}
+On commence par celle-ci car elle en a dérouté plus d'un. Nous avons, avec \zsh et \bash, deux syntaxes essentielles. La première \emph{parcourt} un ensemble de données :
+
+\begin{lstlisting}
+for file_name in *.txt
+do
+	cat $file_name
+done
+\end{lstlisting}
+
+Il y a la boucle plus classique pour les spécialistes de Java :
+
+\begin{lstlisting}
+for ((i=5; i< 8; i++))
+do
+	echo $i
+done
+\end{lstlisting}
+
+Avec \tcsh, nous aurons :
+
+\begin{lstlisting}
+foreach file_name (*.txt)
+	cat $file_name
+end
+
+foreach i (`seq 5 1 8`)
+	echo $i
+end
+\end{lstlisting}
+
+
+\subsubsection{la boucle \code{while}}
+Elle permet de boucles infinies comme celle-ci avec \zsh, \bash et \ksh :
+
+\begin{lstlisting}
+while true; do date ``+%T''; sleep 1; done
+\end{lstlisting}
+
+Avec \tcsh, nous écrirons en deux lignes :
+\begin{lstlisting}
+while (1);  date ``+%T''; sleep 1; 
+end
+\end{lstlisting}
+
+\subsection{surprises avec \code{stat}, \code{find} et \code{xargs}}
+
+\subsubsection{\code{stat}}
+La commande \code{stat} permet de connaître bon nombre de détails à propos d'un fichier comme ici :
+
+\begin{lstlisting}
+bernard@debian7 ~ % stat *
+install:
+device  70
+inode   1837064
+mode    16877
+nlink   3
+uid     1000
+gid     1000
+rdev    7337007
+size    512
+atime   1383862259
+mtime   1383085660
+ctime   1383085660
+blksize 16384
+blocks  4
+link
+
+userstart.tar.gz:
+device  70
+inode   1837156
+mode    33188
+nlink   1
+uid     1000
+gid     1000
+rdev    7371584
+size    3498854
+atime   1383855566
+mtime   1383855552
+ctime   1383855552
+blksize 16384
+blocks  6880
+link
+\end{lstlisting}
+
+On obtient, sous \zsh, un résultat totalement identique sous \netbsd et sous \linux.  Si l'on fait un \code{which stat}, nous obtenons, sur les deux systèmes, le message \code{stat: shell built-in command}. C'est ce qui me plait sous \zsh, les commandes non standard comme \code{stat} sont remplacées par des fonctions dont le résultat ne réserve pas de surprise.  Si je veux une sortie plus agréable et n'afficher que la date de dernière modification (\cf \href{http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fstat-Module}{The zsh/stat module} pour de plus amples explications) :
+
+\begin{lstlisting}
+bernard@debian7 ~ % stat -F "%Y-%m-%d %T" +mtime -n *
+install 2013-10-29 23:27:40
+userstart.tar.gz 2013-11-07 21:19:12
+bernard@debian7 ~ %
+\end{lstlisting}
+
+\begin{lstlisting}
+bernard@NBSD-64bits ~ % stat -F "%Y-%m-%d %T" +mtime -n *
+install 2013-11-14 09:52:56
+userstart.tar.gz 2013-11-08 00:54:06
+bernard@NBSD-64bits ~ %
+\end{lstlisting}
+
+\subsubsection{réfléchissons un peu}
+Grâce à \zsh, nous avons une méthode extrêmement portable entre Unix pour afficher des données détaillées des fichiers. Pour l'exemple, prenons le \code{stat} d'origine :
+
+\begin{lstlisting}
+bernard@debian7 ~ % /usr/bin/stat --printf="%n %z\n" *
+install 2013-10-29 23:27:40.000000000 +0100
+userstart.tar.gz 2013-11-07 21:19:12.000000000 +0100
+bernard@debian7 ~ %
+\end{lstlisting}
+
+\begin{lstlisting}
+bernard@NBSD-64bits ~ % /usr/bin/stat -t "%Y-%m-%d %T" -f "%Sc %N" *
+2013-11-14 09:52:56 install
+2013-11-08 00:54:06 userstart.tar.gz
+bernard@NBSD-64bits ~ %
+\end{lstlisting}
+
+\subsubsection{\emph{tous} les fichiers du monde}
+Si je veux faire la même chose que précédemment, mais sur tous les fichiers de la machine, on peut tomber sur ce message d'erreur:
+
+\begin{lstlisting}
+bernard@debian7 ~ % stat -F "%Y-%m-%d %T" +ctime -n $(find / -name "*")
+zsh: liste d'arguments trop longue: stat
+bernard@debian7 ~ %          
+\end{lstlisting}
+
+C'est là que \code{xargs} entre en jeu, mais avec un nouveau problème :
+
+\begin{lstlisting}
+bernard@debian7 ~ % find / -name "*" | xargs stat -F "%Y-%m-%d %T" +ctime -n
+stat : option non valide -- F
+Saisissez `` stat --help `` pour plus d'informations.
+...
+stat : option non valide -- F
+Saisissez `` stat --help `` pour plus d'informations.
+123 bernard@debian7 ~ %       
+\end{lstlisting}
+
+La commande \code{xargs} va chercher non pas la fonction de \zsh mais le binaire qui se trouve sur le \code{PATH} de la machine. On doit donc faire :
+
+\begin{lstlisting}
+bernard@debian7 ~ % find . -name "*" | xargs stat --printf="%n %z\n"
+...
+./.w3m 2013-11-07 23:07:03.000000000 +0100
+./.w3m/configuration 2013-11-07 23:03:48.000000000 +0100
+./.w3m/history 2013-11-07 23:06:29.000000000 +0100
+./.w3m/cookie 2013-11-07 23:06:29.000000000 +0100
+./.viminfo 2013-11-07 23:07:03.000000000 +0100
+bernard@debian7 ~ %
+\end{lstlisting}
+
+Sous \netbsd :
+
+\begin{lstlisting}
+bernard@NBSD-64bits ~ % find . -name "*" | xargs stat -t "%Y-%m-%d %T" -f "%N %Sc"
+...
+./.lesshst 2013-11-08 01:02:35
+./install 2013-11-14 09:52:56
+./.zshrc.private~ 2013-11-08 01:13:05
+./.viminfo 2013-11-08 01:14:38
+./.xinitrc 2013-11-08 01:14:44
+./.Xauthority 2013-11-08 01:16:25
+bernard@NBSD-64bits ~
+\end{lstlisting}
+
+\subsubsection{application pratique}
+Sur le serveur, qui est sous \linux, faisons la même chose ou presque, on place la date en premier et c'est la surprise du jour  :
+
+\begin{lstlisting}
+[gestionserv] (688) ~ % find /etc -name  "*" | xargs stat --printf="%z %n\n" | sort
+find: "/etc/ssl/private": Permission non accordee
+stat: option invalide -- 'o'
+Pour en savoir davantage, faites:  stat --help .
+[gestionserv] (689) ~ %
+\end{lstlisting}
+
+En rajoutant l'option \code{-print0} à \code{find}, l'option \code{-0} à \code{xargs}, nous obtenons le bon résultat :
+
+\begin{lstlisting}
+[gestionserv] (689) ~ % find /etc -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | sort
+...
+2013-11-12 10:51:42.041176453 +0100 /etc/php5/conf.d/ldap.ini
+2013-11-12 10:55:05.017425662 +0100 /etc/php5/cgi
+2013-11-12 10:55:05.017425662 +0100 /etc/php5/cgi/php.ini
+2013-11-13 14:55:28.001191244 +0100 /etc/apache2/sites-available/aenercom.preprod.conf
+2013-11-13 14:56:35.601352228 +0100 /etc/apache2/sites-available/device.sigrenea.conf
+2013-11-13 14:56:35.601352228 +0100 /etc/apache2/sites-enabled
+2013-11-13 17:16:04.377217037 +0100 /etc/apache2/sites-available
+2013-11-13 17:16:04.377217037 +0100 /etc/phpmyadmin
+2013-11-14 01:03:38.589252417 +0100 /etc/php5/conf.d/mysqli.ini
+2013-11-14 01:05:14.997350491 +0100 /etc/php5/conf.d
+2013-11-14 01:05:14.997350491 +0100 /etc/php5/conf.d/mcrypt.ini
+\end{lstlisting}
+
+En fait, les noms de fichier sous \unix peuvent contenir beaucoup de caractères étranges en dehors de \code{/}. \code{xargs} prend le caractère \code{LF} comme fin d'enregistrement de la part de son entrée standard. Si jamais un fichier contient ce caractère, plus rien ne va. Les nouvelles options permettent à \code{find} d'utiliser \code{0x00} comme séparateur d'enregistrement et à \code{xargs} de bien l'interpréter. 
+
+Il y a aussi une autre explication, depuis bien longtemps les outils \GNU fonctionnent comme ceci et ce n'est que très récemment que le couple \code{find}/\code{xargs} fonctionne ainsi.
+
+Après toutes ces considérations, on constate que le 14 Novembre 2013, un peu après 1 heure du matin, quelqu'un a modifié les fichiers \code{/etc/php5/conf.d/mysqli.ini}  et \code{/etc/php5/conf.d/mcrypt.ini}, tout simplement pour remplacer les commentaires de type shell par des commentaires de type fichier ini.
+
+Après une attaque du serveur, il est intéressant de faire le même exercice sur les répertoires vitaux comme \code{/bin}. Pour éviter des listings trop important, on limite la sortie à l'année 2013 et on fait une jolie boucle :
+
+\begin{lstlisting}
+[gestionserv] (694) ~ % for d in /bin /sbin /lib /lib32 /usr/bin /usr/sbin /usr/lib /usr/lib32; do
+find $d -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | egrep "^2013"
+done | sort
+\end{lstlisting}
+
+Nous obtenons un listing fort long, correspondant aux mises à jour faites le 8 et le 12 Novembre. Maintenant que nous savons que l'attaque a eu lieu avant le 8 Novembre, on sélectionne plus sévèrement:
+
+\begin{lstlisting}
+[gestionserv] (695) ~ % for d in /bin /sbin /lib /lib32 /usr/bin /usr/sbin /usr/lib /usr/lib32; do
+find $d -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | egrep "^2013-11-0[1-7]"
+done | sort
+[gestionserv] (696) ~ %
+\end{lstlisting}
+
+Cependant, rien ne prouve que nous n'avons pas eu de désordres un peu avant ou un peu pendant. Comme le gros des fichiers est dans \code{/usr/lib}, éliminons le de la liste :
+
+\begin{lstlisting}
+[gestionserv] (695) ~ % for d in /bin /sbin /lib /lib32 /usr/bin /usr/sbin; do
+find $d -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | egrep "^2013"
+done | sort
+...
+[gestionserv] (696) ~ %
+\end{lstlisting}
+
+Nous n'avons des modifications qu'entre le 8 et le 12 Novembre.
+
+Plus fort encore, afficher les fichiers modifiés ce jour :
+
+\begin{lstlisting}
+find / -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | egrep "^$(date `+%Y-%m-%d')" | sort
+\end{lstlisting}
+
+On est débordé par l'affichage des fichiers système de Linux. Pour palier à cet inconvénient, on demande à \code{find} d'abandonner les répertoire \code{/sys} et \code{/proc}:
+
+\begin{lstlisting}
+find / \( -path /proc -o -path /sys \) -prune -o -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | egrep "^$(date `+%Y-%m-%d')" | sort
+\end{lstlisting}
+
+\subsection{les surprises de \code{sudo}}
+Reprenons l'exemple précédent en redirigeant la sortie standard vers \code{/dev/null} :
+
+\begin{lstlisting}
+find / \( -path /proc -o -path /sys \) -prune -o -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | egrep "^$(date `+%Y-%m-%d')" > /dev/null
+\end{lstlisting}
+
+On aura une sortie comme celle-ci :
+
+\begin{lstlisting}
+find: "/var/lib/postgresql/9.1/main": Permission non accordee
+find: "/var/lib/sudo": Permission non accordee
+find: "/var/cache/ldconfig": Permission non accordee
+find: "/var/log/exim4": Permission non accordee
+find: "/var/log/apache2": Permission non accordee
+...
+\end{lstlisting}
+
+Pour éliminer les \code{find: ... Permission non accordee}, on utilise \code{sudo} :
+
+\begin{lstlisting}
+sudo find / \( -path /proc -o -path /sys \) -prune -o -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | egrep "^$(date `+%Y-%m-%d')" > /dev/null
+\end{lstlisting}
+
+C'est pire :
+
+\begin{lstlisting}
+...
+stat: impossible d'evaluer ' /root/.aptitude ': Permission non accordee
+stat: impossible d'evaluer ' /root/.aptitude/cache ': Permission non accordee
+stat: impossible d'evaluer ' /root/.aptitude/config ': Permission non accordee
+stat: impossible d'evaluer ' /root/.viminfo ': Permission non accordee
+stat: impossible d'evaluer ' /root/.bash_history ': Permission non accordee
+...
+\end{lstlisting}
+
+Nous avons demandé à \code{sudo} de traité \code{find} et avec le \emph{pipe}, nous demandons à \code{xargs} de traiter les lignes de sorties avec \code{stat}. Ce dernier récupère un nom de fichier et le traite comme tel mais comme il n'est pas lancé avec \code{sudo}, nous avons ces erreurs. Essayons ceci :
+
+\begin{lstlisting}
+sudo find / \( -path /proc -o -path /sys \) -prune -o -name  "*" -print0 | xargs -0  sudo stat --printf="%z %n\n" | egrep "^$(date `+%Y-%m-%d')" > /dev/null
+\end{lstlisting}
+
+C'est pas mieux, autant sous \linux que sous \netbsd :
+
+\begin{lstlisting}
+sudo: unable to execute /usr/bin/stat: Argument list too long
+sudo: unable to execute /usr/bin/stat: Argument list too long
+sudo: unable to execute /usr/bin/stat: Argument list too long
+sudo: unable to execute /usr/bin/stat: Argument list too long
+sudo: unable to execute /usr/bin/stat: Argument list too long
+sudo: unable to execute /usr/bin/stat: Argument list too long
+\end{lstlisting}
+
+Il faut bien l'avouer, je ne sais pas quoi dire de plus ici - sinon noter un \emph{TODO : comprendre ce qui ce passe}. Ce qui est bien avec \unix, c'est qu'il y a toujours un moyen de s'en sortir. On remarquera quelques différences entre les mondes \linux et \BSD, en particulier avec \code{man sh}, où le premier nous renvoie sur \bash alors que le second traite bien directement de \sh. Dans tous les cas, \code{sudo sh -c ``...''} est notre amie et nous obtenons avec  \netbsd :
+
+\begin{lstlisting}
+bernard@NBSD-64bits ~ % sudo sh -c "find / \( -path /proc -o -path /sys \) -prune -o -name '*' -type f | xargs stat -t '%Y-%m-%d %T' -f '%Sc %N' | egrep '^$(date "+%Y-%m-%d")' | sort"
+2013-11-15 08:55:19 /var/run/dmesg.boot
+2013-11-15 08:55:22 /var/log/messages
+2013-11-15 08:55:22 /var/run/ntpd.pid
+2013-11-15 08:55:22 /var/run/powerd.pid
+2013-11-15 08:55:22 /var/run/sshd.pid
+\end{lstlisting}
+
+Et sous \linux :
+
+\begin{lstlisting}
+bernard@debian7 ~ % sudo sh -c "find / \( -path /proc -o -path /sys \) -prune -o -name  '*' -print0 | xargs -0  stat --printf='%z %n\n' | egrep '^$(date "+%Y-%m-%d")'"
+2013-11-15 09:54:42.000000000 +0100 /var/lib/misc/statd.status
+2013-11-15 09:54:41.000000000 +0100 /var/lib/urandom/random-seed
+2013-11-15 09:55:09.000000000 +0100 /var/lib/dhcp/dhclient.em0.leases
+2013-11-15 09:54:49.000000000 +0100 /var/lib/exim4
+2013-11-15 09:54:49.000000000 +0100 /var/lib/exim4/config.autogenerated
+2013-11-15 09:54:45.000000000 +0100 /var/lib/postgresql/9.1/main
+2013-11-15 09:54:46.000000000 +0100 /var/lib/postgresql/9.1/main/global
+...
+\end{lstlisting}
+
+\subsection{\POSIX et \GNU}
+Profitons d'un moment de calme pour remarquer que de nombreuses commandes se comportent de manière très standard entre différents systèmes, y compris parfois, sous \msdos. Tout cela vient de \POSIX ou de \GNU. 
+
+Les guerres de religions qui opposent parfois violemment les mondes \BSD et \linux, les supporters de \code{Vi} et \code{Emacs}, ... finissent par être absorbées avec le temps et seuls quelques irréductibles les raniment, souvent plus pour s'exposer aux yeux (blasés maintenant) du petit monde concerné. Seule reste l'opposition farouche entre tenants du libre et leurs opposants.
+
+Ici, nous avons utilisé \code{find} de la même manière sous \linux et sous \netbsd ce qui n'a pas été toujours le cas, de même, \sh se comporte de manière identique à quelques octets près sur les deux systèmes, ce qui n'était pas forcément vrai il y a quelques années. Pour revenir à \code{find}, nous avions un paquet de compatibilité \GNU disponible sur plusieurs \BSD qui reprenait le \code{find} que nous connaissons maintenant et l'on pouvait différencier \code{gfind} de \code{bsdfind}\footnote{A vérifier dans les détails.}
+
