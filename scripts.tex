@@ -1,0 +1,45 @@
+% !TeX root = optimize-unix.tex
+
+\section{Les scripts \shell}
+La magie des \shells est infinie, ils nous permettent en effet de créer des programmes complets, complexes... parfois aux limites du lisible. On les appelle \emph{scripts} pour les opposer aux applications généralement créées à partir de langages compilés mais cela ne devrait rien changer au fait qu'ils doivent être conçus avec un soin égal à celui apporté aux autres langages comme \emph{C/C++}, \emph{Java}...
+
+Dans tout ce qui suit, il ne faut pas perdre de vue que le \shell est une \emph{coquille} entourant le noyau d'Unix. Certains aspects des \shells ne font que recouvrir des appels systèmes.
+
+\subsection{structure des scripts}
+Ce qui est décrit ici est valable autant pour des langages interprétés comme l'horrible \emph{Perl}\footnote{je ne suis pas objectif, mais quand même...}, le sublime \emph{Scheme}\footnote{là, je me sens plus objectif... ou presque.}, le célèbre \emph{Python} que pour n'importe quel \emph{shell}.
+
+La première ligne d'un script est le \emph{shebang}. Cette ligne est très importante car elle indique de manière sûre quel interpréteur il doit utiliser pour exécuter le corps du script. Voici quelques exemples :
+
+\begin{description}
+\item[sh] : \code{\#!/bin/sh}
+\item[bash] : \code{\#!/bin/sh}
+\item[Perl] : \code{\#!/usr/bin/env perl}
+\item[Python 2.7] : \code{\#!/usr/bin/env python2.7}
+\item[Python] : \code{\#!/usr/bin/env python}
+\item[awk] : \code{\#!/bin/awk -f}
+\end{description}
+
+Les deux caractères \code{\#!} sont considérés comme un nombre magique par le système d'exploitation qui comprend immédiatement qu'il doit utiliser le script dont le nom et les arguments suivent les deux caractères.
+
+Dans un \shell interactif, l'exécution d'un script suit l'algorithme suivant :
+
+\begin{lstlisting}
+fork ();
+if (child) {
+	open(script);
+	switch(magic_number) {
+		case 0x7f'ELF':
+			exec_binaire();
+			break;
+		case `\#!':
+			load_shell(first_line);
+			exec_binaire(shellname, args);
+			break;
+		...
+	}
+} else {
+	wait(child);
+}		
+\end{lstlisting}
+
+
