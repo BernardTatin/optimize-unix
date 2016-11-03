@@ -1,0 +1,43 @@
+% !TeX root = optimize-unix.tex
+
+\section{La configuration}
+\subsection{Le shell personnel}
+La première des configuration est le choix de son shell par défaut sur son compte personnel. C'est très simple :
+
+\lstset{style=shell}
+\begin{lstlisting}
+chsh
+\end{lstlisting}
+
+Aidons-nous du manuel (sous \netbsd) :
+
+\nicepicture{images/man-chsh.png}{\code{man chsh} sous \netbsd}{ma machine virtuelle}
+
+\subsection{Configurer le prompt}
+
+Sur ma machine virtuelle \netbsd, j'obtiens quelque chose comme ceci:
+
+\nicepicture{images/le-prompt.png}{un prompt sous \netbsd, avec \zsh}{ma machine virtuelle}
+
+Le prompt, ce sont les caractères colorés que l'on voit en début de chaque lignes de commande. Ce prompt m'a aidé, voire sauvé plusieurs fois.  Celui-ci m'affiche le nom de l'utilisateur courant en bleu, de la machine en blanc et du répertoire courant en blanc et gras. Lorsque j'ai des sessions sur plusieurs machines, je vois tout de suite où je me trouve avec son nom. Ensuite, lorsque je me déplace de répertoires en répertoires, je n'ai pas besoin de faire d'éternels \code{pwd} pour savoir où je me trouve. En plus, lorsque je trouve dans un dépôt SVN, j'ai un affichage me donnant les indications sur le répertoire de travail (on ne peut pas le faire sous \cygwin) :
+
+\nicepicture{images/le-prompt-svn.png}{dans un répertoire de travail \osname{SVN}, avec \zsh}{ma machine}
+
+Pour finir, le nom de l'utilisateur change de couleur lorsque je suis en \code{root} :
+
+\nicepicture{images/le-prompt-root.png}{en \code{root} avec \zsh}{ma machine}
+
+Tous les shells interactifs de ma connaissance ont au moins un fichier de configuration exécuté au lancement: avec \zsh, c'est \code{.zhrc}, avec \bash, c'est \code{.bashrc} et avec \csh, c'est \code{.cshrc}. Aussi loin que mes souvenirs remontent, on personnalise le prompt avec la variable \code{PS1} et ce, même pour le MS/DOS.
+
+Voici un hexdump de mon  \code{PS1} :
+
+\begin{lstlisting}
+00000000  25 7b 1b 5b 30 31 3b 33  31 6d 25 7d 25 28 3f 2e  |%{.[01;31m%}%(?.|
+00000010  2e 25 3f 25 31 76 20 29  25 7b 1b 5b 33 37 6d 25  |.%?%1v )%{.[37m%|
+00000020  7d 25 7b 1b 5b 33 34 6d  25 7d 25 6e 25 7b 1b 5b  |}%{.[34m%}%n%{.[|
+00000030  30 30 6d 25 7d 40 25 6d  20 25 34 30 3c 2e 2e 2e  |00m%}@%m %40<...|
+00000040  3c 25 42 25 7e 25 62 25  3c 3c 20 24 7b 56 43 53  |<%B%~%b%<< ${VCS|
+00000050  5f 49 4e 46 4f 5f 6d 65  73 73 61 67 65 5f 30 5f  |_INFO_message_0_|
+00000060  7d 25 23 20 0a                                    |}%# .|
+00000065
+\end{lstlisting}
