@@ -46,6 +46,7 @@ if (child) {
 Par tradition autant que par prudence, on écrit ses scripts \shell pour le \shell d'origine, soit \sh. Par prudence car on est certain qu'il sera présent sur la machine même si elle démarre en mode dégradé. Cependant, beaucoup de scripts sont \emph{applicatifs} et ne pourront pas fonctionner en mode dégradé. Autant se servir d'un \shell plus complet comme \bash. 
 
 \subsection{les paramètres des scripts}
+
 Les paramètres, leur nombre et leur taille n'ont de limites que de l'ordre de la dizaine de Ko. Il faut donc pouvoir y accéder. Le paramètre \code{\$0} est le nom du script parfois avec le nom du répertoire. Les neufs suivants sont nommés \code{\$1}, ..., \code{\$9}. Pour accéder aux autres il faut ruser un peu avec l'instruction \code{shift}.
 
 \subsection{tests et boucles}
