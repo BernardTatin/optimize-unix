@@ -39,11 +39,11 @@ if (child) {
 	}
 } else {
 	wait(child);
-}		
+}
 \end{lstlisting}
 
 \subsection{choisir son \shell}
-Par tradition autant que par prudence, on écrit ses scripts \shell pour le \shell d'origine, soit \sh. Par prudence car on est certain qu'il sera présent sur la machine même si elle démarre en mode dégradé. Cependant, beaucoup de scripts sont \emph{applicatifs} et ne pourront pas fonctionner en mode dégradé. Autant se servir d'un \shell plus complet comme \bash. 
+Par tradition autant que par prudence, on écrit ses scripts \shell pour le \shell d'origine, soit \sh. Par prudence car on est certain qu'il sera présent sur la machine même si elle démarre en mode dégradé. Cependant, beaucoup de scripts sont \emph{applicatifs} et ne pourront pas fonctionner en mode dégradé. Autant se servir d'un \shell plus complet comme \bash.
 
 \subsection{les paramètres des scripts}
 
@@ -57,7 +57,7 @@ then
 	...
 else
 	...
-fi	
+fi
 \end{lstlisting}
 
 Dans le même ordre d'idée, nous avons le \code{while} :
@@ -74,7 +74,7 @@ condition && condition_true && ...
 
 ou bien :
 \begin{lstlisting}
-condition || condition_false 
+condition || condition_false
 \end{lstlisting}
 
 Nous avons aussi une boucle \code{for} :
@@ -97,10 +97,10 @@ case \$\#? in
 		its-okayyy
 		;;
 	1)
-		bad_parameters
+		bad_parameterzzz
 		;;
 	2|3|4)
-		cant-open-files
+		cant-open-filezzz
 		;;
 	*)
 		unknow-error
