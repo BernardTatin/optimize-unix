@@ -37,34 +37,34 @@ cat $file-name |
 
 On obtient rapidement un script (\code{stat1.sh}) à partir de cette ligne de commande :
 
-
-\begin{lstlisting}
-#!/bin/sh
-
-scriptname=$(basename $0)
-
-dohelp() {
-    cat << DOHELP
-${scriptname} [-h|--help] : this text
-${scriptname} file file\ldots : stats
-DOHELP
-    exit 0
-}
-
-[ $# -eq 0 ] && dohelp
-case $1 in
-    -h | --help)
-        dohelp
-        ;;
-    *)
-        cat "$@" | \
-            cut -d ':' -f 1 | \
-                sort | \
-                    uniq -c | \
-                        sort -n
-        ;;
-esac
-\end{lstlisting}
+\lstinputlisting{code/stat1.sh}
+% \begin{lstlisting}
+% #!/bin/sh
+%
+% scriptname=$(basename $0)
+%
+% dohelp() {
+%     cat << DOHELP
+% ${scriptname} [-h|--help] : this text
+% ${scriptname} file file\ldots : stats
+% DOHELP
+%     exit 0
+% }
+%
+% [ $# -eq 0 ] && dohelp
+% case $1 in
+%     -h | --help)
+%         dohelp
+%         ;;
+%     *)
+%         cat "$@" | \
+%             cut -d ':' -f 1 | \
+%                 sort | \
+%                     uniq -c | \
+%                         sort -n
+%         ;;
+% esac
+% \end{lstlisting}
 
 On peut tester :
 
@@ -105,3 +105,5 @@ Voici ma méthode, facile à mémoriser mais pas parfaite et un peu lourde:
 \end{description}
 
 Voici un exemple plus parlant (script \code{stat2.sh}) :
+
+\lstinputlisting{code/stat2.sh}

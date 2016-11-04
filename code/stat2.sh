@@ -8,7 +8,7 @@ ${scriptname} [-h|--help] : this text
 ${scriptname} [options] file file\ldots : stats
 options:
     -s|--size N : number of most important hours, default 5
-    -h|--byhour : for each hours
+    -b|--byhour : for each hours
 DOHELP
     exit 0
 }
