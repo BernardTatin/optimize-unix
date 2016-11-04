@@ -1,0 +1,92 @@
+% !TeX root = optimize-unix.tex
+
+\section{exemples de manipulation de texte}
+
+\subsection{des stats}
+Voici un extrait d'un fichier \code{/var/log/messages}:
+
+\begin{lstlisting}
+Nov  3 10:16:19 localhost org.gnome.zeitgeist.SimpleIndexer[2637]: ** \ldots
+Nov  3 10:16:34 localhost org.freedesktop.FileManager1[2637]: Initializing \ldots
+Nov  3 10:16:34 localhost nautilus: [N-A] Nautilus-Actions Menu Extender 3.2\ldots
+Nov  3 10:16:34 localhost org.freedesktop.FileManager1[2637]: Initializing naut\ldots
+Nov  3 10:16:34 localhost nautilus: [N-A] Nautilus-Actions Tracker 3.2.3 initializing\ldots
+\end{lstlisting}
+
+Nous voulons déterminer les moments les plus actifs de ce fichier avec une granularité de une heure.
+La manipulation est simple:
+
+\begin{description}
+    \item[afficher le fichier] \code{cat file-name},
+    \item[découper le ficher] \code{cut -d ':' -f 1},
+    \item[trier le fichier] \code{sort},
+    \item[compter les occurences] \code{uniq -c},
+    \item[trier en décroissant] \code{sort -n}.
+\end{description}
+
+Ce qui nous donne la commande:
+
+\begin{lstlisting}
+cat $file-name |
+    cut -d ':' -f 1 |
+        sort |
+            uniq -c |
+                sort -n
+\end{lstlisting}
+
+On obtient rapidement un script (\code{stat1.sh}) à partir de cette ligne de commande :
+
+\lstinputlisting{code/stat1.sh}
+
+On peut tester :
+
+\begin{lstlisting}
+$ ./stat1.sh messages-1 /var/log/messages /var/log/messages.1
+...
+  152 Nov  4 10
+  155 Oct 27 11
+  156 Oct 28 09
+  164 Oct 28 17
+  186 Oct 25 14
+  213 Oct 28 11
+  216 Nov  3 10
+  260 Oct 28 10
+  636 Oct 26 15
+  774 Oct 28 07
+ 1770 Nov  3 09
+ 3844 Oct 28 14
+26201 Oct 28 15
+\end{lstlisting}
+
+\subsection{peut-on faire mieux?}
+Bien sûr! On peut avoir d'autres options que la simple aide, on peut aussi gérer correctement les erreurs, les \emph{signaux \unix}\ldots
+
+\subsubsection{les options}
+Depuis longtemps il existe une norme \POSIX{} permettant de gérer les options de la ligne
+de commande. Malheureusement, il fut une époque où la norme avait beaucoup de variantes
+ce qui m'a poussé à faire ma propre gestion de ces paramètres.
+
+Voici ma méthode, facile à mémoriser mais pas parfaite et un peu lourde:
+
+\begin{description}
+    \item[l'aide] créer une fonction \code{dohelp} comme dans l'exemple précédent;
+    le nom \code{dohelp} permet d'éviter un clash avec une éventuelle commande \code{help}.
+    \item[s'assurer de l'existence de paramètres] il suffit de faire le test \code{[ \$\# -eq 0 ]} et
+    exécuter le code nécessaire.
+    \item[vider la liste des paramètres] une boucle \code{while [ \$\# -ne 0 ]} fait l'affaire.
+\end{description}
+
+Voici un exemple plus parlant (script \code{stat2.sh}):
+\lstinputlisting{code/stat2.sh}
+
+Et maintenant avec le \code{getopts}\footnote{soyez prudents avec les (très) anciennes versions de \emph{Red Hat}}:
+\lstinputlisting{code/stat3.sh}
+
+En fait, \code{getopts} ne sait traiter que les \emph{options courtes} et classiques d'\unix. Les \emph{options longues}
+à la mode \linux{} ne sont pas supportées. L'avantage de \code{getopts} est son mode de fonctionnement
+assez simple. Son inconvénient principal est d'être très \bash{} même si \POSIX{} le soutient, ce qui fait qu'il
+n'est pas forcément disponible partout.
+
+Pour avoir les \emph{options longues}, il faut utiliser l'outil \GNU{} \code{getopt} (sans le \code{s} de fin).
+Je reste donc sur ma méthode qui n'est finalement ni meilleure ni pire\footnote{voir cette discussion sur
+\href{http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options}{StackOverflow}}.

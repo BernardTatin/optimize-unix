@@ -44,16 +44,16 @@
     pdftoolbar=true,        % show Acrobat�s toolbar?
     pdfmenubar=true,        % show Acrobat�s menu?
     pdffitwindow=false,     % window fit to page when opened
-    pdfstartview={FitH},    % fits the width of the page to the window
-    pdftitle={CV de Bernard Tatin},    % title
+    pdfstartview={FitB},    % fits the bounding box of the page to the window
+    pdftitle={OPTIMISER SON UTILISATION D’UNIX},    % title
+    pdfsubject={OPTIMISER SON UTILISATION D’UNIX},   % subject of the document
     pdfauthor={Bernard Tatin},     % author
-    pdfsubject={CV de Bernard Tatin},   % subject of the document
     pdfnewwindow=true,      % links in new window
     colorlinks=true,       % false: boxed links; true: colored links
     linkcolor=red,          % color of internal links (change box color with linkbordercolor)
     citecolor=green,        % color of links to bibliography
     filecolor=magenta,      % color of file links
-    urlcolor=cyan           % color of external links
+    urlcolor=blue           % color of external links
 }
 
 %%% HEADERS & FOOTERS
@@ -175,8 +175,8 @@
 	\begin{list}
 		{}
 		{\rightmargin0pt\leftmargin 2.5em}
-	\item 
-		
+	\item
+
 	\item
 		\begin{itshape}
 	}
@@ -188,7 +188,7 @@
 		\center
 		 \footnotesize \cf #1
 		\end{minipage}
-		\end{center} 
+		\end{center}
 }
 
 
@@ -207,7 +207,7 @@
 
 %% programming styles
 \definecolor{trust}{rgb}{0.14,0.51,0.14}
-\definecolor{lgray}{rgb}{0.81,0.81,0.81}
+\definecolor{lgray}{rgb}{0.96,0.96,0.96}
 \definecolor{hgray}{rgb}{0.31,0.31,0.31}
 \definecolor{gray}{rgb}{0.41,0.41,0.41}
 
@@ -226,8 +226,6 @@
 	breaklines=true
 }
 
-
-
 %%% END Article customizations
 \makeindex
 %%% The "real" document content comes below...
@@ -238,15 +236,18 @@
 \emph{bernard.tatin@outlook.fr}}
 
 \date{Novembre 2013/Novembre 2016} % Activate to display a given date or no date (if empty),
-         % otherwise the current date is printed 
+         % otherwise the current date is printed
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Ce document vient des tréfonds de l'espace temps. Il a débuté il y a bien plus de trois ans de cela, repris de manière plus systématique et se trouve fortement complété aujourd'hui. 
+Ce document vient des tréfonds de l'espace temps. Il a débuté il y a bien plus de trois ans de cela, repris de manière plus systématique et se trouve fortement complété aujourd'hui.
 
-La première partie rappelle (rapidement) l'histoire et les concepts principaux des \shells. La deuxième partie est très orienté sur la recherche de \emph{qui a piraté ma machine} mais peut être d'une grande utilité pour les débutants. La troisième partie, quant à elle, se focalise sur les scripts. Une quatrième partie donnera des notions des outils indispensables pour utiliser correctement son système \unix.
+La première partie rappelle (rapidement) l'histoire et les concepts principaux des \shells.
+La deuxième partie est très orienté sur la recherche de \emph{qui a piraté ma machine} mais peut être
+d'une grande utilité pour les débutants. La troisième partie, quant à elle, se focalise sur les scripts.
+Une quatrième partie donnera des notions des outils indispensables pour utiliser correctement son système \unix.
 
 Ce document et ses sources en \LaTeX{} sont disponibles sur \href{https://github.com/BernardTatin/optimize-unix}{GitHub}.
 \end{abstract}
@@ -259,8 +260,9 @@ Ce document et ses sources en \LaTeX{} sont disponibles sur \href{https://github
 \part{la configuration et la ligne de commande}
 \input{shell-config.tex}
 \input{command-line.tex}
-\part{les scripts}
+\part{les scripts et les exemples}
 \input{scripts.tex}
+\input{exemples.tex}
 
 \printindex
 \end{document}

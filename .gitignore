@@ -178,3 +178,12 @@ TSWLatexianTemp*
 
 # KBibTeX
 *~[0-9]*
+
+# sample files
+message*
+*.log
+
+# Atom, Vim, ...
+*.sublime*
+*.komodo*
+.latex.json
