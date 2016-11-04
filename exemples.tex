@@ -105,5 +105,12 @@ Voici ma méthode, facile à mémoriser mais pas parfaite et un peu lourde:
 \end{description}
 
 Voici un exemple plus parlant (script \code{stat2.sh}) :
-
 \lstinputlisting{code/stat2.sh}
+
+Et maintenant avec le \code{getopts}\footnote{soyez prudents avec les (très) anciennes versions de \emph{Red Hat}}:
+\lstinputlisting{code/stat3.sh}
+
+En fait, \code{getopts} ne sait traiter que les \emph{options courtes} et classiques d'\unix. Les \emph{options longues}
+à la mode \linux ne sont pas supportées. L'avantage de \code{getopts} est son mode de fonctionnement
+assez simple. Pour avoir les \emph{options longues}, il faut utiliser l'outil \GNU \code{getopt} (sans le \code{s} de fin).
+Je reste donc sur ma méthode qui n'est finalement ni meilleure ni pire.

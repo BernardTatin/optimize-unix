@@ -4,13 +4,21 @@ scriptname=$(basename $0)
 
 dohelp() {
     cat << DOHELP
-${scriptname} [-h|--help] : this text
+${scriptname} [-h] : this text
 ${scriptname} [options] file file\ldots : stats
 options:
-    -s|--size N : number of most important hours, default 5
-    -b|--byhour : for each hours
+    -s N : number of most important hours, default 5
+    -b : for each hours
 DOHELP
     exit 0
+}
+onerror() {
+    local exit_code=$1
+    shift
+    local error_msg="$@"
+
+    echo "ERROR: $error_msg" 1>&2
+    exit $exit_code
 }
 
 size=5
@@ -43,27 +51,31 @@ doit() {
     eval ${cmd}
 }
 
-[ $# -eq 0 ] && dohelp
+# [ $# -eq 0 ] && dohelp
 end=0
 
-while [ $end -eq 0 ]
+[ $# -eq 0 ] && echo "you need arguments" && dohelp
+
+while getopts "s:bh" opt
 do
-    case $1 in
-        -h | --help)
+    case $opt in
+        h)
             dohelp
             ;;
-        -s | --size)
-            shift
-            [ $# -eq 0 ] && onerror 2 "$1 needs a parameter"
-            set_size $1
-            shift
+        s)
+            set_size $OPTARG
             ;;
-        -b | --byhour)
-            shift
+        b)
             set_byhour
             ;;
-        *)
-            doit "$@"
+        :)
+            onerror 2 "$OPTARG needs a parameter"
+            ;;
+        \?)
+            onerror 7 "option $OPTARG is unknown"
             ;;
     esac
 done
+
+shift $((OPTIND-1))
+doit "$@"
