@@ -5,7 +5,7 @@ scriptname="$(basename $0)"
 dohelp() {
     cat << DOHELP
 ${scriptname} [-h|--help] : this text
-${scriptname} [options] file file\ldots : stats
+${scriptname} [options] file file... : stats
 options:
     -s|--size N : number of most important hours, default 5
     -b|--byhour : for each hours

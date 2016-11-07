@@ -5,7 +5,7 @@ La magie des \shells est infinie, ils nous permettent en effet de créer des pro
 
 Dans tout ce qui suit, il ne faut pas perdre de vue que le \shell est une \emph{coquille} entourant le noyau d'\unix. Certains aspects des \shells ne font que recouvrir des appels systèmes.
 
-\subsection{structure des scripts}
+\subsection{Structure des scripts}
 Ce qui est décrit ici est valable autant pour des langages interprétés comme l'horrible \emph{Perl}\footnote{je ne suis pas objectif, mais quand même...}, le sublime \emph{Scheme}\footnote{là, je me sens plus objectif... ou presque.}, le célèbre \emph{Python} que pour n'importe quel \emph{shell}.
 
 La première ligne d'un script est le \emph{shebang}. Cette ligne est très importante car elle indique de manière sûre quel interpréteur il doit utiliser pour exécuter le corps du script. Voici quelques exemples :
@@ -42,14 +42,14 @@ if (child) {
 }
 \end{lstlisting}
 
-\subsection{choisir son \shell}
+\subsection{Choisir son \shell}
 Par tradition autant que par prudence, on écrit ses scripts \shell pour le \shell d'origine, soit \sh. Par prudence car on est certain qu'il sera présent sur la machine même si elle démarre en mode dégradé. Cependant, beaucoup de scripts sont \emph{applicatifs} et ne pourront pas fonctionner en mode dégradé. Autant se servir d'un \shell plus complet comme \bash.
 
-\subsection{les paramètres des scripts}
+\subsection{Les paramètres des scripts}
 
 Les paramètres, leur nombre et leur taille n'ont de limites que de l'ordre de la dizaine de Ko. Il faut donc pouvoir y accéder. Le paramètre \code{\$0} est le nom du script parfois avec le nom du répertoire. Les neufs suivants sont nommés \code{\$1}, ..., \code{\$9}. Pour accéder aux autres il faut ruser un peu avec l'instruction \code{shift}.
 
-\subsection{tests et boucles}
+\subsection{Tests et boucles}
 Les tests se font avec \code{if} de cette manière :
 \begin{lstlisting}
 if condition
@@ -87,7 +87,7 @@ done
 
 La détermination de \code{ensemble} est assez naturelle comme par exemple avec \code{\$(ls *.java)}. Mais il faut être prudent: selon les \shells les résultats peuvent différer.
 
-\subsection{conditions, valeurs de retour des programmes}
+\subsection{Conditions, valeurs de retour des programmes}
 
 Tout les programmes sous \unix s'achèvent par un \code{return EXIT\_CODE} ou bien un \code{exit(EXIT\_CODE)} bien senti. La valeur \code{EXIT\_CODE} est renvoyée au programme appelant, notre \shell. On peut le récupérer depuis la variable \code{\$\#?} puis étudier le cas :
 \begin{lstlisting}
@@ -114,6 +114,21 @@ esac
 myprogram arg1 arg2 ... || onerror ``Error code \$\#?''
 \end{lstlisting}
 
-\subsection{redirections}
+\subsection{Redirections et tubes (ou \emph{pipes})}
+Le premier piège dans l'utilisation des tubes dans un scripts est simple: pour chaque tube, on crée un nouveau processus. Ainsi le script suivant ne renvoie pas le résultat escompté:
 
-\subsection{tubes ou \emph{pipes}}
+\lstinputlisting{code/bad1.sh}
+
+\begin{lstlisting}
+$ ./bad1.sh
+Il y a 0 fichiers dans /bin
+\end{lstlisting}
+
+La variable compteur fait partie de l'environnement de \code{bad1.sh}. Lorsque la boucle \code{while} se lance, elle est dans un nouveau contexte et sa modification se perd à la fin de la boucle. On corrige de cette manière :
+
+\lstinputlisting{code/not-so-bad1.sh}
+
+\begin{lstlisting}
+ ./not-so-bad1.sh
+Il y a 173 fichiers dans /bin
+\end{lstlisting}

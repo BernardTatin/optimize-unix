@@ -33,8 +33,8 @@ set_byhour() {
 		hours[i]=0
 	}
 }
+
 doit() {
-	local ftmp=/tmp/tmp.file
     end=1
     cmd="cat $@ | ${byhour} | sort | uniq -c | sort -nr | head -n ${size} ${after}"
     case ${is_byhour} in
@@ -47,11 +47,10 @@ doit() {
             printf "%-10.10s\n" "-----------------------------------"
             ;;
     esac
-	eval "${cmd}" > ${ftmp}
 	while IFS=' ' read count index; do
 		local h=${index#0}
 		hours[${h}]=${count}
-	done < $ftmp
+	done < <(eval ${cmd})
 	for ((i=0; i<24; i++)) {
 		printf "%7d %02d\n" ${hours[i]} $i
 	}

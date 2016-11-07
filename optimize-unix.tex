@@ -4,15 +4,15 @@
 % This is a simple template for a LaTeX document using the "article" class.
 % See "book", "report", "letter" for other types of document.
 
-\documentclass[11pt]{amsart} % use larger type; default would be 10pt
+\documentclass[12pt]{amsart} % use larger type; default would be 10pt
 
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 
 %% \usepackage{kpfonts}
 %% \usepackage[default]{gillius}
-%% \usepackage{Alegreya} %% Option 'black' gives heavier bold face 
-\usepackage{lmodern}
+\usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+%% \usepackage{lmodern}
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
 % See the LaTeX Companion or other references for full information.
@@ -37,8 +37,13 @@
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
 % These packages are all incorporated in the memoir class to one degree or another...
 
-\usepackage{listings}
 \usepackage{xspace}
+
+\xspaceaddexceptions{\,}
+\xspaceaddexceptions{\.}
+
+\usepackage{listings}
+\usepackage{courier}
 \usepackage{color}
 \usepackage{hyperref}
 
@@ -58,6 +63,7 @@
     filecolor=magenta,      % color of file links
     urlcolor=blue           % color of external links
 }
+
 
 %%% HEADERS & FOOTERS
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
@@ -144,7 +150,9 @@
 \newcommand\cf{\emph{cf}\xspace{}}
 \newcommand\ie{\emph{i.e.}\xspace{}}
 
-\newcommand\osname[1]{\textsc{\textbf{#1}}\xspace\index{#1@\textsc{#1}}\xspace{}}
+\usepackage{bold-extra}
+
+\newcommand\osname[1]{\textsc{\textbf{#1}}\index{#1@\textsc{#1}}\xspace}
 \newcommand\netbsd{\osname{NetBSD}}
 \newcommand\freebsd{\osname{FreeBSD}}
 \newcommand\BSD{\osname{BSD}}
@@ -160,9 +168,9 @@
 \newcommand\msdos{\osname{MS/DOS}}
 \newcommand\windows{\osname{Windows}}
 
-\newcommand\cmdname[1]{\emph{\texttt{#1}}\xspace\index{#1@\texttt{#1}}\xspace{}}
+\newcommand\cmdname[1]{\emph{\texttt{#1}}\xspace\index{#1@\texttt{#1}}\xspace}
 \definecolor{codecolor}{rgb}{0.08,0.4,0.07}
-\newcommand\code[1]{\textcolor{codecolor}{\textbf{\cmdname{#1}}}\xspace{}}
+\newcommand\code[1]{\textcolor{codecolor}{\textbf{\cmdname{#1}}}\xspace}
 
 \newcommand\sh{\cmdname{sh}}
 \newcommand\bash{\cmdname{bash}}
@@ -216,20 +224,32 @@
 \definecolor{gray}{rgb}{0.41,0.41,0.41}
 
 \definecolor{kword}{rgb}{0.01,0.01,0.71}
+\definecolor{morekword}{rgb}{0.1,0.7,0.01}
 \definecolor{colVarName}{rgb}{0.01,0.71,0.01}
 \definecolor{colVarValue}{rgb}{0.71,0.01,0.01}
 \definecolor{kword}{rgb}{0.01,0.01,0.71}
 
+
 \lstdefinestyle{shell}{tabsize=4,
-	basicstyle=\small\ttfamily,
+	basicstyle=\fontsize{10}{12}\selectfont\ttfamily,
 	language=bash,
 	numbers=left,numberstyle=\tiny\color{gray},
+	classoffset=0,
 	keywordstyle=\bfseries\color{kword},
-	morekeywords={TRUE,FALSE,BYTE,WORD,DWORD},
+	classoffset=1,
+	morekeywords={cat,cut,sort,uniq,head,tail,tr,IFS,sudo,find,sh,bash,stat,xargs,date,grep,egrep,sed},
+	keywordstyle=\bfseries\color{morekword},
+	classoffset=0,
 	backgroundcolor=\color{lgray},
-	breaklines=true
+	breaklines=true,
+  	showspaces=false,
+  	showstringspaces=false
 }
 
+\renewcommand{\thepart}{ - \emph{\alph{part}}}
+
+\usepackage{chngcntr}
+\counterwithin{section}{part}
 %%% END Article customizations
 \makeindex
 %%% The "real" document content comes below...
@@ -237,11 +257,12 @@
 \title{Optimiser son utilisation d'Unix}
 \author{Bernard TATIN \\
 \small \\
-\textnormal{bernard.tatin@outlook.fr}}
+\textit{bernard.tatin@outlook.fr}}
 
 \date{Novembre 2013/Novembre 2016} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed
 
+\linespread{1.1}
 \begin{document}
 \begin{abstract}
 Ce document vient des tréfonds de l'espace temps. Il a débuté il y a bien plus de trois ans de cela, repris de manière plus systématique et se trouve fortement complété aujourd'hui.
