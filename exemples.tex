@@ -87,6 +87,12 @@ En fait, \code{getopts} ne sait traiter que les \emph{options courtes} et classi
 assez simple. Son inconvénient principal est d'être très \bash{} même si \POSIX{} le soutient, ce qui fait qu'il
 n'est pas forcément disponible partout.
 
-Pour avoir les \emph{options longues}, il faut utiliser l'outil \GNU{} \code{getopt} (sans le \code{s} de fin).
-Je reste donc sur ma méthode qui n'est finalement ni meilleure ni pire\footnote{voir cette discussion sur
-\href{http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options}{StackOverflow}}.
+Pour avoir les \emph{options longues}, il faut utiliser l'outil \GNU{} \code{getopt} (sans le \code{s} de fin)\footnote{voir cette discussion sur \href{http://stackoverflow.com/questions/402377/using-getopts-in-bash-shell-script-to-get-long-and-short-command-line-options}{StackOverflow}}. 
+Je reste donc sur ma méthode qui n'est finalement ni meilleure ni pire.
+
+\subsubsection{avec \code{bash}}
+On peut profiter des avantages de \bash : boucles, tableaux, \ldots comme dans ce script (qui ne fonctionne \textbf{pas} avec \sh) :
+
+\lstinputlisting{code/stat4.sh}
+
+Conrairement aux précédents, si une tranche horaire n'est pas représentée dans les fichiers logs passés en paramètres, elle sera tout de même affichée avec la valeur 0. 

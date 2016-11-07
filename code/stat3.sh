@@ -18,7 +18,7 @@ onerror() {
     local error_msg="$@"
 
     echo "ERROR: $error_msg" 1>&2
-    exit $exit_code
+    exit "$exit_code"
 }
 
 size=5
@@ -27,16 +27,16 @@ is_byhour=0
 after=""
 
 set_size() {
-    [ $1 -lt 1 ] && onerror 3 "size must be > 1"
+    [ "$1" -lt 1 ] && onerror 3 "size must be > 1"
     size=$1
 }
 set_byhour() {
     byhour="${byhour} | tr -s ' ' | cut -d ' ' -f 3"
     after=" | sort -k 2"
     is_byhour=1
+	set_size 24
 }
 doit() {
-    end=1
     cmd="cat $@ | ${byhour} | sort | uniq -c | sort -nr | head -n ${size} ${after}"
     case ${is_byhour} in
         0)
@@ -48,11 +48,10 @@ doit() {
             printf "%-10.10s\n" "-----------------------------------"
             ;;
     esac
-    eval ${cmd}
+    eval "${cmd}"
 }
 
 # [ $# -eq 0 ] && dohelp
-end=0
 
 [ $# -eq 0 ] && echo "you need arguments" && dohelp
 
@@ -63,7 +62,7 @@ do
             dohelp
             ;;
         s)
-            set_size $OPTARG
+            set_size "$OPTARG"
             ;;
         b)
             set_byhour

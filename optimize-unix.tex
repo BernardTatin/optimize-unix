@@ -9,7 +9,10 @@
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 
-\usepackage{kpfonts}
+%% \usepackage{kpfonts}
+%% \usepackage[default]{gillius}
+%% \usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+\usepackage{lmodern}
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
 % See the LaTeX Companion or other references for full information.
@@ -24,7 +27,7 @@
 \usepackage{graphicx} % support the \includegraphics command and options
 %% \usepackage{makeidx}
 \usepackage{xparse} % pour les nouveaux environnements avec paramètres
-% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
 
 %%% PACKAGES
 \usepackage{booktabs} % for much better looking tables
@@ -58,9 +61,10 @@
 
 %%% HEADERS & FOOTERS
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
-\pagestyle{fancy} % options: empty , plain , fancy
+%% \pagestyle{fancy} % options: empty , plain , fancy
+\pagestyle{plain} % options: empty , plain , fancy
 \renewcommand{\headrulewidth}{0pt} % customise the layout...
-\lhead{}\chead{}\rhead{}
+% \lhead{}\chead{}\rhead{}
 \lfoot{}\cfoot{\thepage}\rfoot{}
 
 %%% SECTION TITLE APPEARANCE
@@ -136,11 +140,11 @@
 }
 
 
-\newcommand\Cf{\emph{Cf}\xspace}
-\newcommand\cf{\emph{cf}\xspace}
-\newcommand\ie{\emph{i.e.}\xspace}
+\newcommand\Cf{\emph{Cf}\xspace{}}
+\newcommand\cf{\emph{cf}\xspace{}}
+\newcommand\ie{\emph{i.e.}\xspace{}}
 
-\newcommand\osname[1]{\textsc{\textbf{#1}}\xspace\index{#1@\textsc{#1}}}
+\newcommand\osname[1]{\textsc{\textbf{#1}}\xspace\index{#1@\textsc{#1}}\xspace{}}
 \newcommand\netbsd{\osname{NetBSD}}
 \newcommand\freebsd{\osname{FreeBSD}}
 \newcommand\BSD{\osname{BSD}}
@@ -156,9 +160,9 @@
 \newcommand\msdos{\osname{MS/DOS}}
 \newcommand\windows{\osname{Windows}}
 
-\newcommand\cmdname[1]{\emph{\texttt{#1}}\xspace\index{#1@\texttt{#1}}}
+\newcommand\cmdname[1]{\emph{\texttt{#1}}\xspace\index{#1@\texttt{#1}}\xspace{}}
 \definecolor{codecolor}{rgb}{0.08,0.4,0.07}
-\newcommand\code[1]{\textcolor{codecolor}{\textbf{\cmdname{#1}}}\xspace}
+\newcommand\code[1]{\textcolor{codecolor}{\textbf{\cmdname{#1}}}\xspace{}}
 
 \newcommand\sh{\cmdname{sh}}
 \newcommand\bash{\cmdname{bash}}
@@ -167,8 +171,8 @@
 \newcommand\tcsh{\cmdname{tcsh}}
 \newcommand\ksh{\cmdname{ksh}}
 \newcommand\awk{\cmdname{awk}}
-\newcommand\shell{\cmdname{shell}}
-\newcommand\shells{\cmdname{shells}}
+\newcommand\shell{\emph{\textsc{shell}}\xspace{}}
+\newcommand\shells{\emph{\textsc{shells}}\xspace{}}
 
 \NewDocumentEnvironment{Quotebis}{ m }
 {
@@ -233,24 +237,24 @@
 \title{Optimiser son utilisation d'Unix}
 \author{Bernard TATIN \\
 \small \\
-\emph{bernard.tatin@outlook.fr}}
+\textnormal{bernard.tatin@outlook.fr}}
 
 \date{Novembre 2013/Novembre 2016} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed
 
 \begin{document}
-\maketitle
-
 \begin{abstract}
 Ce document vient des tréfonds de l'espace temps. Il a débuté il y a bien plus de trois ans de cela, repris de manière plus systématique et se trouve fortement complété aujourd'hui.
 
-La première partie rappelle (rapidement) l'histoire et les concepts principaux des \shells.
-La deuxième partie est très orienté sur la recherche de \emph{qui a piraté ma machine} mais peut être
+La première partie rappelle (rapidement) l'histoire et les concepts principaux des \shells{}.
+La deuxième partie est très orientée sur la recherche de \emph{qui a piraté ma machine} mais peut être
 d'une grande utilité pour les débutants. La troisième partie, quant à elle, se focalise sur les scripts.
-Une quatrième partie donnera des notions des outils indispensables pour utiliser correctement son système \unix.
+Une quatrième partie donnera des notions des outils indispensables pour utiliser correctement son système \unix{}.
 
 Ce document et ses sources en \LaTeX{} sont disponibles sur \href{https://github.com/BernardTatin/optimize-unix}{GitHub}.
 \end{abstract}
+
+\maketitle
 
 \tableofcontents
 

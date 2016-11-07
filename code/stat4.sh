@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 scriptname="$(basename $0)"
 
@@ -17,18 +17,24 @@ size=5
 byhour="cut -d ':' -f 1"
 is_byhour=0
 after=""
+hours=
 
 set_size() {
     [ "$1" -lt 1 ] && onerror 3 "size must be > 1"
     size=$1
 }
 set_byhour() {
+	local i
     byhour="${byhour} | tr -s ' ' | cut -d ' ' -f 3"
     after=" | sort -k 2"
     is_byhour=1
 	set_size 24
+	for ((i=0; i<24; i++)) {
+		hours[i]=0
+	}
 }
 doit() {
+	local ftmp=/tmp/tmp.file
     end=1
     cmd="cat $@ | ${byhour} | sort | uniq -c | sort -nr | head -n ${size} ${after}"
     case ${is_byhour} in
@@ -41,7 +47,14 @@ doit() {
             printf "%-10.10s\n" "-----------------------------------"
             ;;
     esac
-    eval "${cmd}"
+	eval "${cmd}" > ${ftmp}
+	while IFS=' ' read count index; do
+		local h=${index#0}
+		hours[${h}]=${count}
+	done < $ftmp
+	for ((i=0; i<24; i++)) {
+		printf "%7d %02d\n" ${hours[i]} $i
+	}
 }
 
 [ $# -eq 0 ] && dohelp
