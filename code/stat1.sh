@@ -1,6 +1,6 @@
 #!/bin/sh
 
-scriptname=$(basename $0)
+scriptname="$(basename $0)"
 
 dohelp() {
     cat << DOHELP

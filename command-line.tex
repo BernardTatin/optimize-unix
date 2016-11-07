@@ -1,12 +1,12 @@
 % !TeX root = optimize-unix.tex
 
-\section{la ligne de commande}
+\section{La ligne de commande}
 Pour de multiples raisons déjà plus ou moins évoquées plus haut, j'ai choisi de travailler avec \zsh{} comme shell par défaut. C'est ce que nous allons faire ici, autant sous \freebsd{} que sous \linux{}, tout simplement pour prouver que l'utilisation du shell est assez indépendante du système sous-jacent. Mais comme je sais que certains systèmes viennent avec \bash{} ou \tcsh{}, sans possibilité de modification, je les évoqueraient donc, en particulier \tcsh{} qui est utilisé très souvent, avec \csh{}, pour l'administration. Ce n'est que fortuitement que j'examinerais \ksh{},  autant par manque d'habitude que parce que je ne l'ai jamais rencontré.
 
-\subsection{les boucles}
+\subsection{Les boucles}
 Il y a \code{while} et \code{for}.
 
-\subsubsection{la boucle \code{for}}
+\subsubsection{La boucle \code{for}}
 On commence par celle-ci car elle en a dérouté plus d'un. Nous avons, avec \zsh{} et \bash, deux syntaxes essentielles. La première \emph{parcourt} un ensemble de données:
 
 \begin{lstlisting}
@@ -38,7 +38,7 @@ end
 \end{lstlisting}
 
 
-\subsubsection{la boucle \code{while}}
+\subsubsection{La boucle \code{while}}
 Elle permet de boucles infinies comme celle-ci avec \zsh{}, \bash{} et \ksh{}:
 
 \begin{lstlisting}
@@ -51,7 +51,7 @@ while (1);  date ``+%T''; sleep 1;
 end
 \end{lstlisting}
 
-\subsection{surprises avec \code{stat}, \code{find} et \code{xargs}}
+\subsection{Surprises avec \code{stat}, \code{find} et \code{xargs}}
 
 \subsubsection{\code{stat}}
 La commande \code{stat} permet de connaître bon nombre de détails à propos d'un fichier comme ici:
@@ -107,7 +107,7 @@ userstart.tar.gz 2013-11-08 00:54:06
 bernard@NBSD-64bits ~ %
 \end{lstlisting}
 
-\subsubsection{réfléchissons un peu}
+\subsubsection{Réfléchissons un peu}
 Grâce à \zsh{}, nous avons une méthode extrêmement portable entre Unix pour afficher des données détaillées des fichiers. Pour l'exemple, prenons le \code{stat} d'origine:
 
 \begin{lstlisting}
@@ -124,7 +124,7 @@ bernard@NBSD-64bits ~ % /usr/bin/stat -t "%Y-%m-%d %T" -f "%Sc %N" *
 bernard@NBSD-64bits ~ %
 \end{lstlisting}
 
-\subsubsection{\emph{tous} les fichiers du monde}
+\subsubsection{\emph{Tous} les fichiers du monde}
 Si je veux faire la même chose que précédemment, mais sur tous les fichiers de la machine, on peut tomber sur ce message d'erreur:
 
 \begin{lstlisting}
@@ -172,7 +172,7 @@ bernard@NBSD-64bits ~ % find . -name "*" | xargs stat -t "%Y-%m-%d %T" -f "%N %S
 bernard@NBSD-64bits ~
 \end{lstlisting}
 
-\subsubsection{application pratique}
+\subsubsection{Application pratique}
 Sur le serveur, qui est sous \linux, faisons la même chose ou presque, on place la date en premier et c'est la surprise du jour:
 
 \begin{lstlisting}
@@ -248,7 +248,7 @@ On est débordé par l'affichage des fichiers système de Linux. Pour palier à 
 find / \( -path /proc -o -path /sys \) -prune -o -name  "*" -print0 | xargs -0  stat --printf="%z %n\n" | egrep "^$(date `+%Y-%m-%d')" | sort
 \end{lstlisting}
 
-\subsection{les surprises de \code{sudo}}
+\subsection{Les surprises de \code{sudo}}
 Reprenons l'exemple précédent en redirigeant la sortie standard vers \code{/dev/null}:
 
 \begin{lstlisting}

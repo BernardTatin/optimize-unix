@@ -15,8 +15,8 @@
 *.dvi
 *-converted-to.*
 # these rules might exclude image files for figures etc.
-# *.ps
-# *.eps
+*.ps
+*.eps
 # *.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
@@ -187,3 +187,7 @@ message*
 *.sublime*
 *.komodo*
 .latex.json
+.*.swp
+
+code/logs-fortest/
+

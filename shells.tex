@@ -1,12 +1,14 @@
 % !TeX root = optimize-unix.tex
 
-\section{Les shells}
-Un \emph{shell} est une \emph{coquille}, pour reprendre la traduction littérale, autour du système d'exploitation. Voici un magnifique diagramme pompé sur le WEB, donnant une idée du concept :
-\nicepicture{diagrammes/ShellUnix.png}{shell \unix}{le WEB}
-Entre mes débuts dans le monde de l'informatique et aujourd'hui, le concept de \emph{shell} a quelque peu évolué. Certains qualifient l'explorateur de Windows comme un \emph{shell}. Ont-ils raison? Certainement si l'on se réfère à l'image précédente : nos \emph{commandes} (clique, clique et reclique) envoyée au \emph{shell graphique} sont transmises au noyau qui nous renvoie, par l'intermédiaire du \emph{shell graphique}, de belles images. Il faut avouer que l'explorateur Windows est le premier contact que l'utilisateur a avec sa machine.  Et sur l'article \href{http://fr.wikipedia.org/wiki/Interface_syst%C3%A8me}{interface système} de Wikipedia, on trouve cette définition:
+\section{Les \shells{}}
+Un \shell{} est une \emph{coquille}, pour reprendre la traduction littérale, autour du système d'exploitation. Voici un magnifique diagramme (d'après ce que l'on trouve sur le WEB comme dans d'anciens ouvrages) donnant une idée du concept :
+
+\nicepicture{diagrammes/ShellUnix.png}{shell \unix}{le WEB, ouvrages divers}
+
+Entre mes débuts dans le monde de l'informatique et aujourd'hui, le concept de  \shell{} a quelque peu évolué. Certains qualifient l'explorateur de Windows comme un  \shell{}. Ont-ils raison? Certainement si l'on se réfère à l'image précédente : nos \emph{commandes} (clique, clique et reclique) envoyée au \emph{shell graphique} sont transmises au noyau qui nous renvoie, par l'intermédiaire du \emph{shell graphique}, de belles images. Il faut avouer que l'explorateur Windows est le premier contact que l'utilisateur a avec sa machine.  Et sur l'article \href{http://fr.wikipedia.org/wiki/Interface_syst%C3%A8me}{interface système} de Wikipedia, on trouve cette définition:
 
 \begin{Quote}
-Une \emph{interface système }(\emph{shell} en anglais) est une couche logicielle qui fournit l'interface utilisateur d'un système d'exploitation. Il correspond à la couche la plus externe de ce dernier.
+Une \emph{interface système }( \shell{} en anglais) est une couche logicielle qui fournit l'interface utilisateur d'un système d'exploitation. Il correspond à la couche la plus externe de ce dernier.
 \end{Quote}
 
 Ce même article cite les :
@@ -14,45 +16,45 @@ Ce même article cite les :
 \emph{shells graphiques} fournissant une interface graphique pour l'utilisateur (GUI, pour Graphical User Interface)
 \end{Quote}
 
-Dans le monde \unix, le concept de \emph{shell} reste plus modeste, même si \emph{Midnight Commander} (\texttt{mc}) est parfois considéré comme un shell:
+Dans le monde \unix{}, le concept de  \shell{} reste plus modeste, même si \emph{Midnight Commander} (\texttt{mc}) est parfois considéré comme un \shell{}:
 \nicepicture{images/mc.png}{mc dans une session Cygwin}{mon PC}
-Pour nous et dans tout ce qui suit, nous considérons comme \emph{shell} :
+Pour nous et dans tout ce qui suit, nous considérons comme  \shell{} :
 
-\begin{Quotebis}{\href{http://fr.wikipedia.org/wiki/Shell_Unix}{Shell \unix} sur Wikipedia}
-un interpréteur de commandes destiné aux systèmes d'exploitation \unix et de type \unix qui permet d'accéder aux fonctionnalités internes du système d'exploitation. Il se présente sous la forme d'une interface en ligne de commande accessible depuis la console ou un terminal. L'utilisateur lance des commandes sous forme d'une entrée texte exécutée ensuite par le \shell. Dans les différents systèmes \windows, le programme analogue est \code{command.com} ou \code{cmd.exe}.
+\begin{Quotebis}{\href{http://fr.wikipedia.org/wiki/Shell_Unix}{ \shell{} \unix{}} sur Wikipedia}
+un interpréteur de commandes destiné aux systèmes d'exploitation \unix{} et de type \unix{} qui permet d'accéder aux fonctionnalités internes du système d'exploitation. Il se présente sous la forme d'une interface en ligne de commande accessible depuis la console ou un terminal. L'utilisateur lance des commandes sous forme d'une entrée texte exécutée ensuite par le  \shell{}. Dans les différents systèmes \windows, le programme analogue est \code{command.com} ou \code{cmd.exe}.
 \end{Quotebis}
 
 \subsection{Le fonctionnement}
 Le fonctionnement général est assez simple, surtout si l'on ne tient pas compte de la gestion des erreurs comme dans le graphique suivant qui peut être appliqué à tout bon interpréteur. Seuls les détails de \code{process command} et \code{execute command} vont réellement changer.
-\leftpicture{diagrammes/shell-main-states.png}{\shell : fonctionnement général}{créé avec \emph{yEd}}
+\leftpicture{diagrammes/shell-main-states.png}{ \shell{} : fonctionnement général}{créé avec \emph{yEd}}
 L'exécution d'un programme suit l'algorithme :
-\rightpicture{diagrammes/shell-exec.png}{\shell : exécution d'un programme}{créé avec \emph{yEd}}
+\rightpicture{diagrammes/shell-exec.png}{ \shell{} : exécution d'un programme}{créé avec \emph{yEd}}
 À noter que la commande \code{exec} se comporte différemment : elle correspond à l'appel système \code{exec}.
 
-\subsection{Quelques shells célèbres}
-\subsubsection{\sh, le Bourne Shell}
+\subsection{Quelques \shells{} célèbres}
+\subsubsection{\sh{}, le Bourne \shell{}}
 L'ancêtre, toujours vivant et avec lequel sont écrits une grande majorité des scripts actuels. Son intérêt essentiel est justement l'écriture de scripts. Pour l'interaction, il est absolument \emph{nul} mais bien utile parfois pour dépanner.
 
-\subsubsection{\csh, le C shell}
-Il se voulait le remplaçant glorieux de l'\emph{ancêtre} \sh avec une syntaxe considérée plus lisible car proche du C. Il est de plus en plus abandonné y compris par ses admirateurs les plus fervents, vieillissants dans la solitude la plus complète. Essayez d'écrire un script en csh d'un peu d'envergure sans faire de copié/collé! Il n'y a en effet pas de possibilité de créer des fonctions et, ce qui gêne peut-être encore plus les administrateurs système, il n'y a pas de gestion d'exception.  Cependant, il fût certainement le premier à proposer l'historique des commandes.
+\subsubsection{\csh{}, le C \shell{}}
+Il se voulait le remplaçant glorieux de l'\emph{ancêtre} \sh{} avec une syntaxe considérée plus lisible car proche du C. Il est de plus en plus abandonné y compris par ses admirateurs les plus fervents, vieillissants dans la solitude la plus complète. Essayez d'écrire un script en csh d'un peu d'envergure sans faire de copié/collé! Il n'y a en effet pas de possibilité de créer des fonctions et, ce qui gêne peut-être encore plus les administrateurs système, il n'y a pas de gestion d'exception.  Cependant, il fût certainement le premier à proposer l'historique des commandes.
 
-A noté qu'il fût crée par Bill Joy, l'un des fondateurs historiques de la société Sun Microsystems.
+A noter qu'il fût crée par Bill Joy, l'un des fondateurs historiques de la société Sun Microsystems.
 
-\subsubsection{\tcsh}
-Le pendant interactif du précédent. Il lui reste des afficionados qui aiment bien sa gestion de l'historique et de la ligne de commande.  Il est une \emph{extension} de \csh, \ie tout ce qui peut-être fait par \csh est fait par \tcsh. Sur de nombreux systèmes (Mac OS X  entre autre), ces deux shells pointent sur le même exécutable (avec un lien symbolique).
+\subsubsection{\tcsh{} ou le \csh{} interactif}
+Le pendant interactif du précédent. Il lui reste des afficionados qui aiment bien sa gestion de l'historique et de la ligne de commande.  Il est une \emph{extension} de \csh{}, \ie tout ce qui peut-être fait par \csh{} est fait par \tcsh{}. Sur de nombreux systèmes (Mac OS X  entre autre), ces deux \shell{}s pointent sur le même exécutable (avec un lien symbolique).
 
-En séquence \emph{nostalgie}, je me souviens que c'est ce shell interactif que j'utilisais sur mon premier \unix, en 87/88.
+En séquence \emph{nostalgie}, je me souviens que c'est ce \shell{} interactif que j'utilisais sur mon premier \unix{}, en 87/88.
 
-\subsubsection{\ksh, le Korn Shell}
-Initialement écrit pour \unix par David Korn au début des années 80, ce shell a été repris par Microsoft pour Windows. Compatible avec \sh, il propose de nombreuses avancées comme beaucoup de fonctionnalités de \tcsh,  des fonctions, des exceptions, des manipulations très évoluées de chaînes de caractères, ...
+\subsubsection{\ksh{}, le Korn  \shell{}}
+Initialement écrit pour \unix{} par David Korn au début des années 80, ce \shell{} a été repris par Microsoft pour Windows. Compatible avec \sh{}, il propose de nombreuses avancées comme beaucoup de fonctionnalités de \tcsh{},  des fonctions, des exceptions, des manipulations très évoluées de chaînes de caractères, ...
 
-\subsubsection{\zsh, le Z Shell}
-C'est mon préféré pour l'interactivité, la complétion et bien d'autres choses encore dont il est capable depuis sa création ou presque. Comme \ksh, il est compilable en bytecode et propose des bibliothèques thématiques comme la couleur, les sockets, la gestion des dates...
+\subsubsection{\zsh{}, le Z  \shell{}}
+C'est mon préféré pour l'interactivité, la complétion et bien d'autres choses encore dont il est capable depuis sa création ou presque. Comme \ksh{}, il est compilable en bytecode et propose des bibliothèques thématiques comme la couleur, les sockets, la gestion des dates...
 
-\subsubsection{\bash, Bourne Again Shell}
-C'est le descendant le plus direct de \sh. C'est certainement le shell le plus répandu dans le monde Linux aujourd'hui. 
+\subsubsection{\bash{}, Bourne Again  \shell{}}
+C'est le descendant le plus direct de \sh{}. C'est certainement le \shell{} le plus répandu dans le monde Linux aujourd'hui. 
 
-Lors de ma découverte de Linux, je l'ai vite abandonné car il était très en retard pour la complétion en ligne de commande par rapport à d'autres, y compris \tcsh qui commençait pourtant à vieillir un peu. Il a fallu beaucoup d'années (pratiquement 10) pour qu'il en vienne à peu près au niveau de \zsh.
+Lors de ma découverte de Linux, je l'ai vite abandonné car il était très en retard pour la complétion en ligne de commande par rapport à d'autres, y compris \tcsh{} qui commençait pourtant à vieillir un peu. Il a fallu beaucoup d'années (pratiquement 10) pour qu'il en vienne à peu près au niveau de \zsh{}.
 
-Aujourd'hui, c'est le shell par défaut de nombreuses distributions Linux et il commence à devenir très utilisé comme shell de script par défaut. 
+Aujourd'hui, c'est le \shell{} par défaut de nombreuses distributions Linux et il commence à devenir très utilisé comme \shell{} de script par défaut. 
 
