@@ -4,14 +4,16 @@
 % This is a simple template for a LaTeX document using the "article" class.
 % See "book", "report", "letter" for other types of document.
 
-\documentclass[12pt]{amsart} % use larger type; default would be 10pt
+\documentclass[11pt]{amsart} % use larger type; default would be 10pt
 
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 
 %% \usepackage{kpfonts}
 %% \usepackage[default]{gillius}
-\usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+%% \usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+\usepackage{berenis}
+%% \usepackage{quattrocento}
 %% \usepackage{lmodern}
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
@@ -67,11 +69,11 @@
 
 %%% HEADERS & FOOTERS
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
-%% \pagestyle{fancy} % options: empty , plain , fancy
-\pagestyle{plain} % options: empty , plain , fancy
-\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\pagestyle{fancy} % options: empty , plain , fancy
+%% \pagestyle{headings} % options: empty , plain , fancy
+%% \renewcommand{\headrulewidth}{0pt} % customise the layout...
 % \lhead{}\chead{}\rhead{}
-\lfoot{}\cfoot{\thepage}\rfoot{}
+%% \lfoot{}\cfoot{\thepage}\rfoot{}
 
 %%% SECTION TITLE APPEARANCE
 %% \usepackage{sectsty}
@@ -81,11 +83,11 @@
 %% formattage de la table des matières : indentation en fonction du niveau
 \setcounter{tocdepth}{3}% to get subsubsections in toc
 
-\let\oldtocsection=\tocsection
+\let\oldtocsection=\tocsection{}
 
-\let\oldtocsubsection=\tocsubsection
+\let\oldtocsubsection=\tocsubsection{}
 
-\let\oldtocsubsubsection=\tocsubsubsection
+\let\oldtocsubsubsection=\tocsubsubsection{}
 
 \renewcommand{\tocsection}[2]{\hspace{0em}\oldtocsection{#1}{#2}}
 \renewcommand{\tocsubsection}[2]{\hspace{1em}\oldtocsubsection{#1}{#2}}
@@ -162,6 +164,8 @@
 \newcommand\unix{\osname{Unix}}
 \newcommand\multics{\osname{Multics}}
 \newcommand\GNU{\osname{GNU}}
+\newcommand\Debian{\osname{Debian}}
+\newcommand\RedHat{\osname{RedHat}}
 
 \newcommand\POSIX{\osname{POSIX}}
 
@@ -237,7 +241,7 @@
 	classoffset=0,
 	keywordstyle=\bfseries\color{kword},
 	classoffset=1,
-	morekeywords={cat,cut,sort,uniq,head,tail,tr,IFS,sudo,find,sh,bash,stat,xargs,date,grep,egrep,sed},
+	morekeywords={cat,cut,sort,uniq,head,tail,tr,IFS,sudo,find,sh,bash,stat,xargs,date,grep,egrep,sed,basename,dirname,which},
 	keywordstyle=\bfseries\color{morekword},
 	classoffset=0,
 	backgroundcolor=\color{lgray},
@@ -256,7 +260,7 @@
 
 \title{Optimiser son utilisation d'Unix}
 \author{Bernard TATIN \\
-\small \\
+\tiny \\
 \textit{bernard.tatin@outlook.fr}}
 
 \date{Novembre 2013/Novembre 2016} % Activate to display a given date or no date (if empty),
