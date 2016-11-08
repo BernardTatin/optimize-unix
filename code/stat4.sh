@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 scriptname="$(basename $0)"
+set -e
 
 dohelp() {
     cat << DOHELP
 ${scriptname} [-h|--help] : this text
-${scriptname} [options] file file\ldots : stats
+${scriptname} [options] file file... : stats
 options:
     -s|--size N : number of most important hours, default 5
     -b|--byhour : for each hours
@@ -29,9 +30,10 @@ set_byhour() {
     after=" | sort -k 2"
     is_byhour=1
 	set_size 24
-	for ((i=0; i<24; i++)) {
+	for ((i=0; i<24; i++)) 
+	do
 		hours[i]=0
-	}
+	done
 }
 
 doit() {
@@ -47,13 +49,16 @@ doit() {
             printf "%-10.10s\n" "-----------------------------------"
             ;;
     esac
-	while IFS=' ' read count index; do
+	# eval "$cmd"
+	while read count index reste; do
 		local h=${index#0}
-		hours[${h}]=${count}
-	done < <(eval ${cmd})
-	for ((i=0; i<24; i++)) {
+		# printf "<%2d> <%7d> <%s>\n" $h $count $reste
+		hours[h]=${count}
+	done <<<"$(eval ${cmd})"
+	for ((i=0; i<24; i++)) 
+	do
 		printf "%7d %02d\n" ${hours[i]} $i
-	}
+	done
 }
 
 [ $# -eq 0 ] && dohelp
@@ -62,16 +67,16 @@ end=0
 while [ $end -eq 0 ]
 do
     case $1 in
-        -h | --help)
+        -h|--help)
             dohelp
             ;;
-        -s | --size)
+        -s|--size)
             shift
             [ $# -eq 0 ] && onerror 2 "$1 needs a parameter"
             set_size "$1"
             shift
             ;;
-        -b | --byhour)
+        -b|--byhour)
             shift
             set_byhour
             ;;
