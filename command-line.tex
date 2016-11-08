@@ -91,7 +91,7 @@ blocks  6880
 link
 \end{lstlisting}
 
-On obtient, sous \zsh{}, un résultat totalement identique sous \netbsd{} et sous \linux{}.  Si l'on fait un \code{which stat}, nous obtenons, sur les deux systèmes, le message \code{stat: shell built-in command}. C'est ce qui me plait sous \zsh{}, les commandes non standard comme \code{stat} sont remplacées par des fonctions dont le résultat ne réserve pas de surprise.  Si je veux une sortie plus agréable et n'afficher que la date de dernière modification (\cf \href{http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fstat-Module}{The zsh/stat module} pour de plus amples explications):
+On obtient, sous \zsh{}, un résultat totalement identique sous \netbsd{} et sous \linux{}.  Si l'on fait un \code{which stat}, nous obtenons, sur les deux systèmes, le message \code{stat: shell built-in command}. C'est ce qui me plait sous \zsh{}, les commandes non standard comme \code{stat} sont remplacées par des fonctions dont le résultat ne réserve pas de surprise.  Si je veux une sortie plus agréable et n'afficher que la date de dernière modification (\cf{} \href{http://zsh.sourceforge.net/Doc/Release/Zsh-Modules.html#The-zsh_002fstat-Module}{The zsh/stat module} pour de plus amples explications):
 
 \begin{lstlisting}
 bernard@debian7 ~ % stat -F "%Y-%m-%d %T" +mtime -n *
