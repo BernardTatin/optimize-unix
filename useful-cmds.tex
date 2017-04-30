@@ -19,6 +19,7 @@ On en profite pour présenter l'indispensable \code{which} qui donne le nom comp
 \section{cherche et remplace}
 Les outils de base sont \code{egrep}, \code{sed} et \code{tr}\footnote{L'outil \code{awk}, est, à mon humble avis, à reléguer dans les musées.}. Ces trois outils utilisent les expressions régulières. Ces expressions régulières ressemblent fortement à ce que l'on trouve dans Perl, Python, Java et les autres. La différence fondamentale à ne pas oublier: les expressions régulières des outils \GNU{} sont rapides, efficaces, les autres\ldots beaucoup moins\footnote{L'introduction du \emph{backtracking} peut détruire complètement les performances}.
 
+Les expressions régulières méritent une formation complète car elles ne sont pas vraiment intuitives. De plus, les variations qui existent entre \POSIX, \GNU, \BSD, les \shells{} qui en rajoutent parfois, sans compter que certains outils, certaines distributions n'ont pas leurs outils vraiment à jour (\cf{} \RedHat{}).
 
-
-Les expressions régulières méritent une formation complète car elles ne sont pas vraiment intuitives. De plus, les variations qui existent entre \POSIX, \GNU, \BSD, les \shells{} qui en rajoutent parfois, sans compter que certains outils, certaines distributions n'ont pas leurs outils vraiment à jour (\cf{} \emph{Red Hat}).
+\subsection{cherche}
+Pour la recherche, nous avons \code{grep} et \code{egrep}. En fait, la plupart du temps, \code{egrep} équivaut à \code{grep -E} permettant l'utilisation des expressions régulières dites étendues ou \POSIX{} dont la documentation se trouve dans \code{man 7 regex} sous \Debian.
