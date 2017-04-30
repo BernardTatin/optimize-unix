@@ -4,14 +4,15 @@
 % This is a simple template for a LaTeX document using the "article" class.
 % See "book", "report", "letter" for other types of document.
 
-\documentclass[12pt]{amsart} % use larger type; default would be 10pt
+%%% \documentclass[12pt]{scrjrnl} % use larger type; default would be 10pt
+\documentclass[psamsfonts, 12pt]{amsproc} % use larger type; default would be 10pt
 
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 
-%% \usepackage{kpfonts}
-%% \usepackage[default]{gillius}
-\usepackage{Alegreya} %% Option 'black' gives heavier bold face 
+%%% \usepackage{kpfonts}
+%%% \usepackage[default]{gillius}
+%%% \usepackage{Alegreya} %% Option 'black' gives heavier bold face 
 %% \usepackage{lmodern}
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
@@ -47,8 +48,7 @@
 \usepackage{color}
 \usepackage{hyperref}
 
-\hypersetup{
-    unicode=false,          % non-Latin characters in Acrobat�s bookmarks
+\hypersetup{unicode=false,          % non-Latin characters in Acrobat�s bookmarks
     pdftoolbar=true,        % show Acrobat�s toolbar?
     pdfmenubar=true,        % show Acrobat�s menu?
     pdffitwindow=false,     % window fit to page when opened
@@ -81,15 +81,15 @@
 %% formattage de la table des matières : indentation en fonction du niveau
 \setcounter{tocdepth}{3}% to get subsubsections in toc
 
-\let\oldtocsection=\tocsection
+ \let\oldtocsection=\tocsection
 
-\let\oldtocsubsection=\tocsubsection
+ \let\oldtocsubsection=\tocsubsection
 
-\let\oldtocsubsubsection=\tocsubsubsection
+ \let\oldtocsubsubsection=\tocsubsubsection
 
-\renewcommand{\tocsection}[2]{\hspace{0em}\oldtocsection{#1}{#2}}
-\renewcommand{\tocsubsection}[2]{\hspace{1em}\oldtocsubsection{#1}{#2}}
-\renewcommand{\tocsubsubsection}[2]{\hspace{2em}\oldtocsubsubsection{#1}{#2}}
+ \renewcommand{\tocsection}[2]{\hspace{0em}\oldtocsection{#1}{#2}}
+ \renewcommand{\tocsubsection}[2]{\hspace{1em}\oldtocsubsection{#1}{#2}}
+ \renewcommand{\tocsubsubsection}[2]{\hspace{2em}\oldtocsubsubsection{#1}{#2}}
 
 
 %% pour l'apparence des listes
@@ -101,53 +101,50 @@
 %% \renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
 %% \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
 
+\usepackage{wrapfig}
+
 \newcommand\nicepicture[3] {
-\begin{center}
-\begin{minipage}{122mm}
-\center
-\includegraphics[width=120mm]{#1}
-\emph{#2} \\
-\footnotesize Source: #3
-\end{minipage}
-\end{center}
+\begin{wrapfigure}{R}{0.45\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{#1}
+\caption{\emph{#2} \\
+\footnotesize Source: #3}
+\end{wrapfigure}
 }
 
 \newcommand\smallpicture[3] {
-\begin{center}
-\begin{minipage}{78mm}
-\center
-\includegraphics[width=72mm]{#1}
-\emph{#2} \\
-\footnotesize Source: #3
-\end{minipage}
-\end{center}
+\begin{wrapfigure}{L}{0.45\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{#1}
+\caption{\emph{#2} \\
+\footnotesize Source: #3}
+\end{wrapfigure}
 }
 
 \newcommand\leftpicture[3] {
-\begin{flushleft}
-\begin{minipage}{78mm}
-\center
-\includegraphics[width=72mm]{#1}
-\emph{#2} \\
-\footnotesize Source: #3
-\end{minipage}
-\end{flushleft}
+\begin{wrapfigure}{L}{0.45\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{#1}
+\caption{\emph{#2} \\
+\footnotesize Source: #3}
+\end{wrapfigure}
 }
 
+%% #1 : fichier image
+%% #2 : caption
+%% #3 : la source
 \newcommand\rightpicture[3] {
-\begin{flushright}
-\begin{minipage}{78mm}
-\center
-\includegraphics[width=72mm]{#1}
-\emph{#2} \\
-\footnotesize Source: #3
-\end{minipage}
-\end{flushright}
+\begin{wrapfigure}{R}{0.45\textwidth}
+\includegraphics[width=0.9\linewidth]{#1}
+\caption{\emph{#2} \\
+\footnotesize Source: #3}
+\end{wrapfigure}
 }
 
 
-\newcommand\Cf{\emph{Cf}\xspace{}}
-\newcommand\cf{\emph{cf}\xspace{}}
+
+\newcommand\Cf{\emph{Cf.}\xspace{}}
+\newcommand\cf{\emph{cf.}\xspace{}}
 \newcommand\ie{\emph{i.e.}\xspace{}}
 
 \usepackage{bold-extra}
@@ -182,8 +179,7 @@
 \newcommand\shell{\emph{\textsc{shell}}\xspace{}}
 \newcommand\shells{\emph{\textsc{shells}}\xspace{}}
 
-\NewDocumentEnvironment{Quotebis}{ m }
-{
+\NewDocumentEnvironment{Quotebis}{m}{
 	\begin{list}
 		{}
 		{\rightmargin0pt\leftmargin 2.5em}
@@ -191,8 +187,8 @@
 
 	\item
 		\begin{itshape}
-	}
-	{
+}
+{
 		\end{itshape}
 	\end{list}
 	\begin{center}
@@ -258,24 +254,26 @@
 \author{Bernard TATIN \\
 \small \\
 \textit{bernard.tatin@outlook.fr}}
+\makeindex
 
-\date{Novembre 2013/Novembre 2016} % Activate to display a given date or no date (if empty),
+
+\date{2013/2017} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed
 
 \linespread{1.1}
 \begin{document}
-\begin{abstract}
-Ce document vient des tréfonds de l'espace temps. Il a débuté il y a bien plus de trois ans de cela, repris de manière plus systématique et se trouve fortement complété aujourd'hui.
+ \begin{abstract}
+ Ce document vient des tréfonds de l'espace temps. Il a débuté il y a bien plus de trois ans de cela, repris de manière plus systématique et se trouve fortement complété aujourd'hui.
 
-La première partie rappelle (rapidement) l'histoire et les concepts principaux des \shells{}.
-La deuxième partie est très orientée sur la recherche de \emph{qui a piraté ma machine} mais peut être
-d'une grande utilité pour les débutants. La troisième partie, quant à elle, se focalise sur les scripts.
-Une quatrième partie donnera des notions des outils indispensables pour utiliser correctement son système \unix{}.
+ La première partie rappelle (rapidement) l'histoire et les concepts principaux des \shells{}.
+ La deuxième partie est très orientée sur la recherche de \emph{qui a piraté ma machine} mais peut être
+ d'une grande utilité pour les débutants. La troisième partie, quant à elle, se focalise sur les scripts.
+ Une quatrième partie donnera des notions des outils indispensables pour utiliser correctement son système \unix{}.
 
-Ce document et ses sources en \LaTeX{} sont disponibles sur \href{https://github.com/BernardTatin/optimize-unix}{GitHub}.
-\end{abstract}
-
+ Ce document (\emph{en pleine réorganisation}) et ses sources en \LaTeX{} sont disponibles sur \href{https://github.com/BernardTatin/optimize-unix}{GitHub}.
+ \end{abstract}
 \maketitle
+
 
 \tableofcontents
 
