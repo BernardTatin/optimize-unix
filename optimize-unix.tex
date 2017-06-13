@@ -1,279 +1,35 @@
 % !TEX TS-program = pdflatex
 % !TEX encoding = UTF-8 Unicode
 
-% This is a simple template for a LaTeX document using the "article" class.
-% See "book", "report", "letter" for other types of document.
+\documentclass[12pt,book]{bt}
 
-\documentclass[12pt]{amsproc} % use larger type; default would be 10pt
+\input{presentation}
+\input{logos}
 
-\usepackage[french]{babel}
-\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 
-%% \usepackage{kpfonts}
-%% \usepackage[default]{gillius}
-%% \usepackage{Alegreya} %% Option 'black' gives heavier bold face 
-%% \usepackage{lmodern}
-%%% Examples of Article customizations
-% These packages are optional, depending whether you want the features they provide.
-% See the LaTeX Companion or other references for full information.
-
-%%% PAGE DIMENSIONS
-\usepackage{geometry} % to change the page dimensions
-\geometry{a4paper} % or letterpaper (US) or a5paper or....
-% \geometry{margin=2in} % for example, change the margins to 2 inches all round
-% \geometry{landscape} % set up the page for landscape
-%   read geometry.pdf for detailed page layout information
-
-\usepackage{graphicx} % support the \includegraphics command and options
-\usepackage{xparse} % pour les nouveaux environnements avec paramètres
-\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
-
-%%% PACKAGES
-\usepackage{booktabs} % for much better looking tables
-\usepackage{array} % for better arrays (eg matrices) in maths
-\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
-\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
-\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
-% These packages are all incorporated in the memoir class to one degree or another...
-
-\usepackage{xspace}
-
-\xspaceaddexceptions{\,}
-\xspaceaddexceptions{\.}
-
-\usepackage{listings}
-\usepackage{courier}
-\usepackage{color}
-\usepackage{hyperref}
-
-\hypersetup{unicode=false,          % non-Latin characters in Acrobat�s bookmarks
-    pdftoolbar=true,        % show Acrobat�s toolbar?
-    pdfmenubar=true,        % show Acrobat�s menu?
-    pdffitwindow=false,     % window fit to page when opened
-    pdfstartview={FitB},    % fits the bounding box of the page to the window
-    pdftitle={OPTIMISER SON UTILISATION D’UNIX},    % title
-    pdfsubject={OPTIMISER SON UTILISATION D’UNIX},   % subject of the document
-    pdfauthor={Bernard Tatin},     % author
-    pdfnewwindow=true,      % links in new window
-    colorlinks=true,       % false: boxed links; true: colored links
-    linkcolor=red,          % color of internal links (change box color with linkbordercolor)
-    citecolor=green,        % color of links to bibliography
-    filecolor=magenta,      % color of file links
-    urlcolor=blue           % color of external links
+\author{Bernard Tatin}
+\date{2013/2017}
+\authorfooter{%
+% % %% insert punctuation at end of each item
+  \item Bernard TATIN,  bernard.tatin@outlook.fr.
+  \item Franck Zappa pour l'ambiance musicale.
 }
 
-
-%%% HEADERS & FOOTERS
-\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
-
-\pagestyle{plain} % options: empty , plain , fancy
-%% \pagestyle{headings} % options: empty , plain , fancy
-%% \renewcommand{\headrulewidth}{0pt} % customise the layout...
-\lhead{Optimiser son Unix}\chead{}\rhead{\currentname}
-\lfoot{}\cfoot{\thepage}\rfoot{}
-
-%%% SECTION TITLE APPEARANCE
-%% \usepackage{sectsty}
-%% \allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
-% (This matches ConTeXt defaults)
-
-%% formattage de la table des matières : indentation en fonction du niveau
-\setcounter{tocdepth}{3}% to get subsubsections in toc
-
-%\let\oldtocsection=\tocsection
-%\let\oldtocsubsection=\tocsubsection
-%\let\oldtocsubsubsection=\tocsubsubsection
-%
-%\renewcommand{\tocsection}[2]{\hspace{0em}\oldtocsection{#1}{#2}}
-%\renewcommand{\tocsubsection}[2]{\hspace{1em}\oldtocsubsection{#1}{#2}}
-%\renewcommand{\tocsubsubsection}[2]{\hspace{2em}\oldtocsubsubsection{#1}{#2}}
-
-
-%% pour l'apparence des listes
-\frenchbsetup{StandardItemLabels=true, CompactItemize=false, ReduceListSpacing=false}
-
-%%% ToC (table of contents) APPEARANCE
-%% \usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
-%% \usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
-%% \renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-%% \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
-
-\usepackage{wrapfig}
-
-\newcommand\nicepicture[3] {
-\begin{wrapfigure}{R}{0.45\textwidth}
-\centering
-\includegraphics[width=0.9\linewidth]{#1}
-\caption{\emph{#2} \\
-\footnotesize Source: #3}
-\end{wrapfigure}
-}
-
-\newcommand\smallpicture[3] {
-\begin{wrapfigure}{L}{0.45\textwidth}
-\centering
-\includegraphics[width=0.9\linewidth]{#1}
-\caption{\emph{#2} \\
-\footnotesize Source: #3}
-\end{wrapfigure}
-}
-
-\newcommand\leftpicture[3] {
-\begin{wrapfigure}{L}{0.45\textwidth}
-\centering
-\includegraphics[width=0.9\linewidth]{#1}
-\caption{\emph{#2} \\
-\footnotesize Source: #3}
-\end{wrapfigure}
-}
-
-%% #1 : fichier image
-%% #2 : caption
-%% #3 : la source
-\newcommand\rightpicture[3] {
-\begin{wrapfigure}{R}{0.45\textwidth}
-\includegraphics[width=0.9\linewidth]{#1}
-\caption{\emph{#2} \\
-\footnotesize Source: #3}
-\end{wrapfigure}
-}
-
-
-
-\newcommand\Cf{\emph{Cf.}\xspace{}}
-\newcommand\cf{\emph{cf.}\xspace{}}
-\newcommand\ie{\emph{i.e.}\xspace{}}
-
-\usepackage{bold-extra}
-
-\newcommand\osname[1]{\textsc{\textbf{#1}}\index{#1@\textsc{#1}}\xspace}
-\newcommand\netbsd{\osname{NetBSD}}
-\newcommand\freebsd{\osname{FreeBSD}}
-\newcommand\BSD{\osname{BSD}}
-
-\newcommand\linux{\osname{Linux}}
-\newcommand\cygwin{\osname{Cygwin}}
-\newcommand\unix{\osname{Unix}}
-\newcommand\multics{\osname{Multics}}
-\newcommand\GNU{\osname{GNU}}
-\newcommand\Debian{\osname{Debian}}
-\newcommand\RedHat{\osname{RedHat}}
-
-\newcommand\POSIX{\osname{POSIX}}
-
-\newcommand\msdos{\osname{MS/DOS}}
-\newcommand\windows{\osname{Windows}}
-
-\newcommand\cmdname[1]{\emph{\texttt{#1}}\xspace\index{#1@\texttt{#1}}\xspace}
-\definecolor{codecolor}{rgb}{0.08,0.4,0.07}
-\newcommand\code[1]{\textcolor{codecolor}{\textbf{\cmdname{#1}}}\xspace}
-
-\newcommand\sh{\cmdname{sh}}
-\newcommand\bash{\cmdname{bash}}
-\newcommand\zsh{\cmdname{zsh}}
-\newcommand\csh{\cmdname{csh}}
-\newcommand\tcsh{\cmdname{tcsh}}
-\newcommand\ksh{\cmdname{ksh}}
-\newcommand\awk{\cmdname{awk}}
-\newcommand\shell{\emph{\textsc{shell}}\xspace{}}
-\newcommand\shells{\emph{\textsc{shells}}\xspace{}}
-
-\NewDocumentEnvironment{Quotebis}{m}{
-	\begin{list}
-		{}
-		{\rightmargin0pt\leftmargin 2.5em}
-	\item
-
-	\item
-		\begin{itshape}
-}
-{
-		\end{itshape}
-	\end{list}
-	\begin{center}
-		\begin{minipage}{72mm}
-		\center
-		 \footnotesize \cf #1
-		\end{minipage}
-		\end{center}
-}
-
-
-\newenvironment{Quote} {
-	{\rightmargin0pt\leftmargin2.5em}
-	\begin{itshape}
-	}
-	{
-	\end{itshape}
-}
-
-%% programming styles
-\definecolor{trust}{rgb}{0.14,0.51,0.14}
-\definecolor{lgray}{rgb}{0.96,0.96,0.96}
-\definecolor{hgray}{rgb}{0.31,0.31,0.31}
-\definecolor{gray}{rgb}{0.41,0.41,0.41}
-
-\definecolor{kword}{rgb}{0.01,0.01,0.71}
-\definecolor{morekword}{rgb}{0.1,0.7,0.01}
-\definecolor{colVarName}{rgb}{0.01,0.71,0.01}
-\definecolor{colVarValue}{rgb}{0.71,0.01,0.01}
-\definecolor{kword}{rgb}{0.01,0.01,0.71}
-
-
-\lstdefinestyle{shell}{tabsize=4,
-	basicstyle=\fontsize{10}{12}\selectfont\ttfamily,
-	language=bash,
-	numbers=left,numberstyle=\tiny\color{gray},
-	classoffset=0,
-	keywordstyle=\bfseries\color{kword},
-	classoffset=1,
-	morekeywords={cat,cut,sort,uniq,head,tail,tr,IFS,sudo,find,sh,bash,stat,xargs,date,grep,egrep,sed,basename,dirname,which},
-	keywordstyle=\bfseries\color{morekword},
-	classoffset=0,
-	backgroundcolor=\color{lgray},
-	breaklines=true,
-  	showspaces=false,
-  	showstringspaces=false
-}
-
-\renewcommand{\thepart}{ - \emph{\alph{part}}}
-
-\usepackage{chngcntr}
-\counterwithin{section}{part}
-%%% END Article customizations
-\makeindex
-%%% The "real" document content comes below...
-
+%% \linespread{1.1}
 \title{Optimiser son utilisation d'Unix}
-\author{Bernard TATIN \\
-\tiny \\
-\textit{bernard.tatin@outlook.fr}}
+\abstract{%
+Ce document vient des tréfonds de l'espace temps.\inmargin{Ce document\\ (\emph{en pleine réorganisation})\\ et ses sources en \LaTeX{} sont disponibles sur \href{https://github.com/BernardTatin/optimize-unix}{GitHub}.} Il a débuté il y a bien plus de trois ans de cela, repris de manière plus systématique et se trouve fortement complété aujourd'hui.  La première partie rappelle (rapidement) l'histoire et les concepts principaux des \shells{}.  La deuxième partie est très orientée sur la recherche de \emph{qui a piraté ma machine} mais peut être d'une grande utilité pour les débutants. La troisième partie, quant à elle, se focalise sur les scripts.  Une quatrième partie donnera des notions des outils indispensables pour utiliser correctement son système \unix{}.}
+
 \makeindex
 
-
-\date{2013/2017} % Activate to display a given date or no date (if empty),
-         % otherwise the current date is printed
-
-\linespread{1.1}
 \begin{document}
- \begin{abstract}
- Ce document vient des tréfonds de l'espace temps. Il a débuté il y a bien plus de trois ans de cela, repris de manière plus systématique et se trouve fortement complété aujourd'hui.
-
- La première partie rappelle (rapidement) l'histoire et les concepts principaux des \shells{}.
- La deuxième partie est très orientée sur la recherche de \emph{qui a piraté ma machine} mais peut être
- d'une grande utilité pour les débutants. La troisième partie, quant à elle, se focalise sur les scripts.
- Une quatrième partie donnera des notions des outils indispensables pour utiliser correctement son système \unix{}.
-
- Ce document (\emph{en pleine réorganisation}) et ses sources en \LaTeX{} sont disponibles sur \href{https://github.com/BernardTatin/optimize-unix}{GitHub}.
- \end{abstract}
 \maketitle
-\tableofcontents
-
-%\newpage
+%% \clearpage
 \part{l'histoire et les concepts}
+
 \input{story.tex}
 \input{shells.tex}
-\part{la configuration et la ligne de commande}
+\part{configuration et ligne de commande}
 \input{shell-config.tex}
 \input{command-line.tex}
 \part{les scripts et les exemples}
@@ -282,6 +38,6 @@
 \part{commandes utiles}
 \input{useful-cmds.tex}
 
-
+\addcontentsline{toc}{section}{Index}
 \printindex
 \end{document}

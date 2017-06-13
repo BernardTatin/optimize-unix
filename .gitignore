@@ -188,6 +188,7 @@ message*
 *.komodo*
 .latex.json
 .*.swp
+tags
 
 code/logs-fortest/
 

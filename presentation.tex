@@ -1,0 +1,273 @@
+% !TeX root = presentation.tex
+%% presentation.tex
+%% tout ce qui concerne la présentation
+\usepackage{hobsub-generic}
+
+\usepackage[T1]{fontenc}
+% \usepackage{CormorantGaramond}
+\usepackage{gillius2}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+
+\usepackage{marginnote}
+\usepackage{makeidx}
+\usepackage{graphicx}
+
+\usepackage{titlesec}
+\usepackage{multicol}
+\usepackage{FiraMono}
+
+\usepackage{xspace}
+
+\xspaceaddexceptions{\,}
+\xspaceaddexceptions{\.}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{xparse} % pour les nouveaux environnements avec paramètres
+\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+
+% \addbibresource{bibliographie.bib}
+% \newcommand{\docite}[1] {\footnotesize \textbf{\emph{ (\cite{#1}) }}\normalsize}
+%% This turns references into clickable hyperlinks.
+\usepackage[bookmarks,backref=page,linkcolor=black]{hyperref} %,colorlinks
+\hypersetup{%
+  pdfauthor = {},
+  pdftitle = {},
+  pdfsubject = {},
+  pdfkeywords = {},
+  colorlinks=true,
+  linkcolor= black,
+  citecolor= black,
+  pageanchor=true,
+  urlcolor = black,
+  plainpages = false,
+  linktocpage
+}
+
+%% format des paragraphes
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{4mm}
+\linespread{1.2}
+
+\usepackage{caption}
+\usepackage{boxhandler}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+%% programming styles
+\definecolor{trust}{rgb}{0.14,0.51,0.14}
+\definecolor{lgray}{rgb}{0.96,0.96,0.96}
+\definecolor{hgray}{rgb}{0.31,0.31,0.31}
+\definecolor{gray}{rgb}{0.41,0.41,0.41}
+
+\definecolor{kword}{rgb}{0.01,0.01,0.71}
+\definecolor{morekword}{rgb}{0.1,0.7,0.01}
+\definecolor{colVarName}{rgb}{0.01,0.71,0.01}
+\definecolor{colVarValue}{rgb}{0.71,0.01,0.01}
+
+
+\lstset{%
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+  basicstyle=\footnotesize\ttfamily,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  %deletekeywords={...},            % if you want to delete keywords from the given language
+  %% escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=bash,                 % the language of the code
+  % morekeywords={*,...},           % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve}\textit,     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname}                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+
+\lstset{%
+    % language={[LaTeX]TeX},
+    % alsolanguage={PGF/TikZ},
+    frame=single,
+    framesep=\fboxsep,
+    framerule=\fboxrule,
+    rulecolor=\color{red},
+    xleftmargin=\dimexpr\fboxsep+\fboxrule,
+    xrightmargin=\dimexpr\fboxsep+\fboxrule,
+    breaklines=true,
+    basicstyle=\small\tt,
+    keywordstyle=\color{blue}\sf\textbf,
+    identifierstyle=\color{teal}\textit,
+    commentstyle=\color{darkgray}\textbf,
+    backgroundcolor=\color{yellow!10},
+    tabsize=2,
+    columns=flexible,
+}
+
+\lstdefinestyle{shell}{tabsize=4,
+	basicstyle=\fontsize{10}{12}\selectfont\ttfamily,
+	language=bash,
+	numbers=left,numberstyle=\tiny\color{gray},
+	classoffset=0,
+	keywordstyle=\bfseries\color{kword},
+	classoffset=1,
+	morekeywords={cat,cut,sort,uniq,head,tail,tr,IFS,sudo,find,sh,bash,stat,xargs,date,grep,egrep,sed,basename,dirname,which},
+	keywordstyle=\bfseries\color{morekword},
+	classoffset=0,
+	backgroundcolor=\color{lgray},
+	breaklines=true,
+  	showspaces=false,
+  	showstringspaces=false
+}
+
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{%
+  \colorbox[cmyk]{0.43, 0.35, 0.35,0.01 }{%
+    \parbox{0.8\textwidth}{\hspace{15pt}#1#2#3}
+  }
+}
+\captionsetup[lstlisting]{format=listing, labelfont=white, textfont=white, singlelinecheck=false, margin=2em, font={footnotesize}}
+
+
+%% part redefinition
+\newcommand\headerdisplay[1]{%
+   \huge
+   \vskip.5\baselineskip
+   \filcenter\MakeUppercase{#1}%
+   \vskip.0\baselineskip
+}
+%% \NewCoffin\mytmpa
+%% \NewCoffin\mytmpb
+%% \newcommand\placeabove[3][0pt]{%
+  %% \SetHorizontalCoffin\mytmpa{#2}%
+  %% \SetHorizontalCoffin\mytmpb{#3}%
+  %% \JoinCoffins*\mytmpb[hc,t]\mytmpa[hc,b](0pt,#1)%
+  %% \TypesetCoffin\mytmpb
+%% }
+
+\renewcommand\thepart{\arabic{part}}
+\titleclass{\part}{top} % make part like a chapter
+\titleformat{\part}[frame]
+   {\normalfont}
+   %% {\filcenter\placeabove[2\baselineskip]{\Large }{\huge\enspace\thepart\enspace}}
+   {}
+   {0pt}
+   {\headerdisplay}
+\titlespacing*{\part}{0pt}{0pt}{20pt}
+
+%%% HEADERS & FOOTERS
+\newif\ifwithfancyhdr	\withfancyhdrtrue
+\ifwithfancyhdr
+	\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+
+	%% \pagestyle{headings} % options: empty , plain , fancy
+	%% \renewcommand{\headrulewidth}{0pt} % customise the layout...
+	\lhead{Optimiser son Unix (Linux, BSD\ldots)}\chead{}\rhead{\currentname}
+	\lfoot{}\cfoot{\thepage}\rfoot{}
+\else
+	\pagestyle{plain} % options: empty , plain , fancy
+\fi
+
+%% formattage de la table des matières : indentation en fonction du niveau
+\setcounter{tocdepth}{3}% to get subsubsections in toc
+%% pour l'apparence des listes
+\frenchbsetup{StandardItemLabels=true, CompactItemize=false, ReduceListSpacing=false}
+
+\usepackage{wrapfig}
+
+\newcommand\nicepicture[3] {
+	\begin{wrapfigure}{R}{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{#1}
+		\caption{\emph{#2} \\
+		\footnotesize Source: #3}
+	\end{wrapfigure}
+}
+
+\newcommand\smallpicture[3] {
+	\begin{wrapfigure}{L}{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{#1}
+		\caption{\emph{#2} \\
+		\footnotesize Source: #3}
+	\end{wrapfigure}
+}
+
+\newcommand\leftpicture[3] {
+	\begin{wrapfigure}{L}{0.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{#1}
+		\caption{\emph{#2} \\
+		\footnotesize Source: #3}
+	\end{wrapfigure}
+}
+
+%% #1 : fichier image
+%% #2 : caption
+%% #3 : la source
+\newcommand\rightpicture[3] {
+	\begin{wrapfigure}{R}{0.45\textwidth}
+		\includegraphics[width=0.9\linewidth]{#1}
+		\caption{\emph{#2} \\
+		\footnotesize Source: #3}
+	\end{wrapfigure}
+}
+
+
+
+
+\usepackage{bold-extra}
+
+\NewDocumentEnvironment{Quotebis}{m}{%
+	\begin{list}
+		{}
+		{\rightmargin0pt\leftmargin 2.5em}
+	\item
+
+	\item
+		\begin{itshape}
+}
+{%
+		\end{itshape}
+	\end{list}
+	\begin{center}
+		\begin{minipage}{72mm}
+			\center
+			 \footnotesize \cf #1
+		\end{minipage}
+	\end{center}
+}
+
+
+\newenvironment{Quote} {%
+	{\rightmargin0pt\leftmargin2.5em}
+	\begin{itshape}
+	}
+	{%
+	\end{itshape}
+}
+
+
+
+%% Macros
+\newcommand{\inmargin}[1]{\marginnote{\scriptsize\textit{#1}\normalsize}}
+\newcommand{\commande}[1]{\footnotesize\texttt{\textbf{#1}}\index{#1}\normalsize}
+\newcommand{\code}[1]{\footnotesize\texttt{\emph{#1}}\index{#1}\normalsize}
