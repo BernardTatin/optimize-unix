@@ -1,4 +1,5 @@
-% !TeX root = main.tex
+% !TeX root = optimize-unix.tex
+% !TEX program = pdflatex
 % 'bt' LaTeX class
 
 % ------------ identification --------------
