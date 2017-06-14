@@ -8,10 +8,12 @@
 
 
 % ------------ required packages ------------
-\RequirePackage[T1]{fontenc}
 \RequirePackage[condensed]{gillius2}
+
+\RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[francais]{babel}
+
 \RequirePackage{xcolor}
 
 \RequirePackage[a4paper,textwidth=19cm,textheight=24cm]{geometry}
@@ -19,41 +21,30 @@
 
 
 % ------------ journal options --------------
+% article, book, a4, letter
 \newif\ifbtjournal		\btjournalfalse
-\newif\ifbtbook         \btbookfalse
-\newif\ifbtsansserif    \btsansseriffalse
-\newif\ifbtserif        \btseriffalse
+\newif\ifbtbook         \btbooktrue
+
+\newif\ifbtaFour           \btaFourtrue
+\newif\ifbtletter       \btletterfalse
+
+% more parameters - for next version
+%% \newif\ifbtsansserif    \btsansseriffalse
+%% \newif\ifbtserif        \btseriffalse
+%% \newif\ifwithpartalpha	\withpartalphafalse
 
 \newcommand{\bttcolumnmode}{}
 \newlength\bttpointsize
-\newif\ifwithpartalpha	\withpartalphafalse
-
 
 \DeclareOption{journal}{%
    \btjournaltrue %
-   \btsansseriftrue
-   \btseriffalse
-   \withpartalphafalse
    \bttpointsize=9pt
 }
 
 \DeclareOption{book}{%
    \btbooktrue %
-   \btseriftrue
-   \btsansseriffalse
-   \withpartalphafalse
    \bttpointsize=12pt
 }
-
-\DeclareOption{sserif}{%
-	\btsansseriftrue
-	   \btseriffalse
-}
-\DeclareOption{serif}{%
-	\btseriftrue
-	   \btsansseriffalse
-}
-
 
 \DeclareOption{9pt}{%
    \bttpointsize=9pt
@@ -86,30 +77,22 @@
 \ifdim\bttpointsize>11pt
    \PassOptionsToClass{12pt}{article}
 \else
-	\ifdim\bttpointsize=11pt
+	\ifdim\bttpointsize>10pt
    		\PassOptionsToClass{11pt}{article}
 	\else
-		\ifdim\bttpointsize=10pt
+		\ifdim\bttpointsize>9pt
 	   		\PassOptionsToClass{10pt}{article}
+		\else
+	   		\PassOptionsToClass{9pt}{article}
 		\fi
 	\fi
 \fi
-
-\newlength\btsmalltextwidth
-\setlength{\btsmalltextwidth}{14.5cm}
-\newlength\btbigtextwidth
-\setlength{\btbigtextwidth}{19cm}
 
 \LoadClass{article}
 %% these packages must be AFTER the class is loaded !!
 %% needed by the list of listings
 \RequirePackage{listings}
 \RequirePackage{caption}
-
-
-\ifwithpartalpha
-	\RequirePackage{chngcntr}
-\fi
 
 % ------------ abstract configuration ------
 \newcommand{\bttabstxt}{}
@@ -132,18 +115,16 @@
 
 \renewcommand{\figurename}{Fig.}
 
-\setlength{\topmargin}{-0.625in}
-\setlength{\headheight}{0.0625in}
-\setlength{\headsep}{0.250in}
-\setlength{\footskip}{0.25in}
+\setlength{\topmargin}{-1.56875cm}
+\setlength{\headheight}{0.156875cm}
+\setlength{\headsep}{0.6275cm}
+\setlength{\footskip}{0.6275cm}
 \flushbottom
-\setlength{\columnsep}{0.17in}
+\setlength{\columnsep}{0.4267cm}
 \setlength{\marginparwidth}{65em}
 
-%% \setlength\paperheight {297mm}%
-%% \setlength\paperwidth {210mm}
-\setlength{\evensidemargin}{-0.6875in} %1in-0.3125
-\setlength{\oddsidemargin}{-.58in} %1in-0.4375
+\setlength{\evensidemargin}{-1.725625cm} %1in-0.3125
+\setlength{\oddsidemargin}{-1.4558cm} %1in-0.4375
 
 \renewcommand{\ps@plain}%
    {%
@@ -266,7 +247,6 @@
 	\pagecolor{titlepagecolor}
 	\color{white}
 	\begin{center}%
-	\newgeometry{textwidth=19cm,textheight=24cm}
 		\sffamily
 		{%
 		   \Huge\bfseries%
@@ -287,7 +267,7 @@
 		{%
 			\small
 			\ifx\bttabstxt\bttempty \else%
-				\leftskip = 6.5cm \rightskip = \leftskip%
+				\leftskip = 1.5cm \rightskip = \leftskip%
 				\begingroup%
 					\textcolor{namecolor}
 					{\bfseries Résumé} --- \bttabstxt
@@ -304,9 +284,7 @@
 			\fi%
 		}
 		%% \linediamond
-		\restoregeometry
 	\end{center}%
-	\newgeometry{textwidth=12.5cm,textheight=24cm}
 	\clearpage
 	\pagecolor{white}
 }

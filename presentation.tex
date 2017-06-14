@@ -9,6 +9,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[francais]{babel}
 
+\usepackage[strict]{changepage}
+
 \usepackage{marginnote}
 \usepackage{makeidx}
 \usepackage{graphicx}
@@ -237,33 +239,28 @@
 \usepackage{bold-extra}
 
 \NewDocumentEnvironment{Quotebis}{m}{%
-	\begin{list}
-		{}
-		{\rightmargin0pt\leftmargin 2.5em}
-	\item
-
-	\item
+	\begin{adjustwidth}{1.5cm}{1.5cm}
 		\begin{itshape}
 }
 {%
 		\end{itshape}
-	\end{list}
-	\begin{center}
-		\begin{minipage}{72mm}
-			\center
-			 \footnotesize \cf #1
-		\end{minipage}
-	\end{center}
+		\begin{center}
+			\begin{minipage}{72mm}
+				\center
+				 \footnotesize \cf #1
+			\end{minipage}
+		\end{center}
+	\end{adjustwidth}\medskip
 }
 
 
 \newenvironment{Quote} {%
-	{\rightmargin0pt\leftmargin2.5em}
-	\begin{itshape}
+		\begin{adjustwidth}{1.5cm}{1.5cm}
+		\itshape
 	}
 	{%
-	\end{itshape}
-}
+		\end{adjustwidth}\medskip
+	}
 
 
 
