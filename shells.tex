@@ -3,32 +3,39 @@
 \section{Les \shells{}}
 Un \shell{} est une \emph{coquille}, pour reprendre la traduction littérale, autour du système d'exploitation. Voici un magnifique diagramme (d'après ce que l'on trouve sur le WEB comme dans d'anciens ouvrages) donnant une idée du concept :
 
-\nicepicture{diagrammes/ShellUnix.png}{shell \unix}{le WEB, ouvrages divers}
+\leftpicture{diagrammes/ShellUnix.png}{shell \unix}{le WEB, ouvrages divers}
 
-Entre mes débuts dans le monde de l'informatique et aujourd'hui, le concept de  \shell{} a quelque peu évolué. Certains qualifient l'explorateur de Windows comme un  \shell{}. Ont-ils raison? Certainement si l'on se réfère à l'image précédente : nos \emph{commandes} (clique, clique et reclique) envoyée au \emph{shell graphique} sont transmises au noyau qui nous renvoie, par l'intermédiaire du \emph{shell graphique}, de belles images. Il faut avouer que l'explorateur Windows est le premier contact que l'utilisateur a avec sa machine.  Et sur l'article \href{http://fr.wikipedia.org/wiki/Interface_syst%C3%A8me}{interface système} de Wikipedia, on trouve cette définition:
+Entre mes débuts dans le monde de l'informatique et aujourd'hui, le concept de  \shell{} a quelque peu évolué. Certains qualifient l'explorateur de Windows comme un  \shell{}. Ont-ils raison? Certainement si l'on se réfère à l'image précédente : nos \emph{commandes} (clique, clique et reclique) envoyée au \emph{shell graphique} sont transmises au noyau qui nous renvoie, par l'intermédiaire du \emph{shell graphique}, de belles images. Il faut dire que l'explorateur Windows est le premier contact que l'utilisateur a avec sa machine.  Et sur l'article
+\href{http://fr.wikipedia.org/wiki/Interface_syst%C3%A8me}{interface système} de Wikipedia, on trouve cette définition:
 
 \begin{Quote}
-Une \emph{interface système }( \shell{} en anglais) est une couche logicielle qui fournit l'interface utilisateur d'un système d'exploitation. Il correspond à la couche la plus externe de ce dernier.
+Une \emph{interface système}, \shell{} en anglais, est une couche logicielle qui fournit l'interface utilisateur d'un système d'exploitation. Il correspond à la couche la plus externe de ce dernier.
 \end{Quote}
 
 Ce même article cite les :
+
 \begin{Quote}
 \emph{shells graphiques} fournissant une interface graphique pour l'utilisateur (GUI, pour Graphical User Interface)
 \end{Quote}
 
 Dans le monde \unix{}, le concept de  \shell{} reste plus modeste, même si \emph{Midnight Commander} (\texttt{mc}) est parfois considéré comme un \shell{}:
-\nicepicture{images/mc.png}{mc dans une session Cygwin}{mon PC}
+
+\rightpicture{images/mc.png}{mc dans une session Cygwin}{mon PC}
+
 Pour nous et dans tout ce qui suit, nous considérons comme  \shell{} :
 
-\begin{Quotebis}{\href{http://fr.wikipedia.org/wiki/Shell_Unix}{ \shell{} \unix{}} sur Wikipedia}
+\begin{Quotebis}{%
+\href{http://fr.wikipedia.org/wiki/Shell_Unix}{\shell{} \unix{}} sur Wikipedia}
 un interpréteur de commandes destiné aux systèmes d'exploitation \unix{} et de type \unix{} qui permet d'accéder aux fonctionnalités internes du système d'exploitation. Il se présente sous la forme d'une interface en ligne de commande accessible depuis la console ou un terminal. L'utilisateur lance des commandes sous forme d'une entrée texte exécutée ensuite par le  \shell{}. Dans les différents systèmes \windows, le programme analogue est \code{command.com} ou \code{cmd.exe}.
 \end{Quotebis}
 
 \subsection{Le fonctionnement}
 Le fonctionnement général est assez simple, surtout si l'on ne tient pas compte de la gestion des erreurs comme dans le graphique suivant qui peut être appliqué à tout bon interpréteur. Seuls les détails de \code{process command} et \code{execute command} vont réellement changer.
-\leftpicture{diagrammes/shell-main-states.png}{ \shell{} : fonctionnement général}{créé avec \emph{yEd}}
+
+\rightpicture{diagrammes/shell-main-states.png}{\shell{} : fonctionnement général}{créé avec \emph{yEd}}
 L'exécution d'un programme suit l'algorithme :
-\rightpicture{diagrammes/shell-exec.png}{ \shell{} : exécution d'un programme}{créé avec \emph{yEd}}
+
+\leftpicture{diagrammes/shell-exec.png}{\shell{} : exécution d'un programme}{créé avec \emph{yEd}}
 À noter que la commande \code{exec} se comporte différemment : elle correspond à l'appel système \code{exec}.
 
 \subsection{Quelques \shells{} célèbres}
@@ -46,10 +53,10 @@ Le pendant interactif du précédent. Il lui reste des afficionados qui aiment b
 En séquence \emph{nostalgie}, je me souviens que c'est ce \shell{} interactif que j'utilisais sur mon premier \unix{}, en 87/88.
 
 \subsubsection{\ksh{}, le Korn  \shell{}}
-Initialement écrit pour \unix{} par David Korn au début des années 80, ce \shell{} a été repris par Microsoft pour Windows. Compatible avec \sh{}, il propose de nombreuses avancées comme beaucoup de fonctionnalités de \tcsh{},  des fonctions, des exceptions, des manipulations très évoluées de chaînes de caractères, ...
+Initialement écrit pour \unix{} par David Korn au début des années 80, ce \shell{} a été repris par Microsoft pour Windows. Compatible avec \sh{}, il propose de nombreuses avancées comme beaucoup de fonctionnalités de \tcsh{},  des fonctions, des exceptions, des manipulations très évoluées de chaînes de caractères\ldots
 
 \subsubsection{\zsh{}, le Z  \shell{}}
-C'est mon préféré pour l'interactivité, la complétion et bien d'autres choses encore dont il est capable depuis sa création ou presque. Comme \ksh{}, il est compilable en bytecode et propose des bibliothèques thématiques comme la couleur, les sockets, la gestion des dates...
+C'est mon préféré pour l'interactivité, la complétion et bien d'autres choses encore dont il est capable depuis sa création ou presque. Comme \ksh{}, il est compilable en bytecode et propose des bibliothèques thématiques comme la couleur, les sockets, la gestion des dates\ldots
 
 \subsubsection{\bash{}, Bourne Again  \shell{}}
 C'est le descendant le plus direct de \sh{}. C'est certainement le \shell{} le plus répandu dans le monde Linux aujourd'hui. 

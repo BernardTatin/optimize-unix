@@ -187,7 +187,11 @@ message*
 *.sublime*
 *.komodo*
 .latex.json
+# vim
 .*.swp
+# Caret
+.*.caret
+tags
 
 code/logs-fortest/
 
