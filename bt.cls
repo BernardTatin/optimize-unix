@@ -12,7 +12,7 @@
 
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
-\RequirePackage[francais]{babel}
+\RequirePackage[french]{babel}
 
 \RequirePackage{xcolor}
 
@@ -211,7 +211,7 @@
 
 
 
- 
+
 
 \newcommand{\bttindexterms}{}
 \newcommand{\CCScatlist}[1]{\renewcommand{\bttindexterms}{#1}}
@@ -241,7 +241,7 @@
 }
 
 \definecolor{titlepagecolor}{cmyk}{1,.80,0,.60}
-\definecolor{namecolor}{cmyk}{1,.40,0,.01} 
+\definecolor{namecolor}{cmyk}{1,.40,0,.01}
 
 \renewcommand{\@maketitle}{%
 	\pagecolor{titlepagecolor}
